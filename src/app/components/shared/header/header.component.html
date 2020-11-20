@@ -1,0 +1,10 @@
+<nav class="navbar navbar-light bg-light border-bottom">
+    <a class="navbar-brand" href="#"><i class="fas fa-book mr-2"></i>Book Publish Company</a>
+
+    <div class="nav navbar-nav navbar-right">
+      <div class="row">
+        <a *ngIf="!(authStatus$ | async)" [routerLink]="['/account/signIn']"><span></span><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a *ngIf="(authStatus$ | async)" (click)="signOut()"><span></span><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+    </div>
+</nav>

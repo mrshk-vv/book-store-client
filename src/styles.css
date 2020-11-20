@@ -1,1 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+.ng-invalid.ng-touched{
+  border-color: red;
+}
+
+.error-block{
+  color: red;
+}
+
+.initial-component{
+  width: 50rem;
+  margin: 7px;
+  padding: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.btn {
+	font-size: 16px;
+	font-weight: bold;
+	background: black;
+	border: none;
+  min-width: 140px;
+  margin-left: 1rem;
+}
+
+.btn:hover, .btn:focus {
+	background: rgb(155, 153, 153) !important;
+	outline: none;
+}
+
+.controles-container{
+  width: 100%;
+  padding: 5%;
+}
+
+.controles-container > * {
+  width: 100%;
+}
+
+.pagination{
+  float: right;
+  margin-top: 1rem;
+}
+
+.pagination button{
+  height: 70%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+td{
+  overflow:hidden;
+  max-width: 100px;
+  text-overflow: ellipsis;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
