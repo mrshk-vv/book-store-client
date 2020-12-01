@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthData } from 'src/app/models/AuthData';
-import { Token } from 'src/app/models/Token';
-import { User } from 'src/app/models/User';
+import { AuthData } from 'src/app/models/auth-data';
+import { Token } from 'src/app/models/tokens';
+import { UserSignUp } from 'src/app/models/user/user-sign-up';
 
 export enum AccountActions{
   SIGN_UP = '[Account] Sign Up',
@@ -29,7 +29,7 @@ export const signIn = createAction(AccountActions.SIGN_IN, props<{email: string,
 export const signInSuccess = createAction(AccountActions.SIGN_IN_SUCCESS, props<AuthData>())
 export const signInFailure = createAction(AccountActions.SIGN_IN_FAILURE, props<{errorMessage: string}>())
 
-export const singUp = createAction(AccountActions.SIGN_UP, props<User>())
+export const singUp = createAction(AccountActions.SIGN_UP, props<UserSignUp>())
 export const signUpSuccess = createAction(AccountActions.SIGN_UP_SUCCESS)
 export const signUpFailure = createAction(AccountActions.SIGN_UP_FAILURE, props<{errorMessage: string}>())
 

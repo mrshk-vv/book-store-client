@@ -9,8 +9,6 @@ export class EnumsToArrayPipe implements PipeTransform {
     for (var enumMember in value) {
       if (!isNaN(parseInt(enumMember, 10))) {
         keys.push({key: enumMember, value: value[enumMember]});
-        console.log("ХУЙ")
-        console.log("enum member: ", value[enumMember]);
       }
     }
     return keys;

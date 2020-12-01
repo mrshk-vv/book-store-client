@@ -1,0 +1,52 @@
+<mat-toolbar>
+  <span style="text-align: center;">Edit {{formService.user.firstName}} {{formService.user.lastName}}</span>
+</mat-toolbar>
+  <form [formGroup]="formService.userForm" (submit)="onSubmit()">
+        <input type="hidden" formControlName="id">
+        <input type="hidden" formControlName="isBlocked">
+        <div class="controles-container">
+          <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="firstName" maxlength="40">
+            <mat-error *ngIf="formService.firstName.invalid && formService.firstName.touched">
+              Please input user First Name
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="lastName" maxlength="40">
+            <mat-error *ngIf="formService.lastName.invalid && formService.lastName.touched">
+              Please input user Last Name
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="email" placeholder="Email" formControlName="email" maxlength="40">
+            <mat-error *ngIf="formService.email.hasError('required')">
+              Please provide email
+            </mat-error>
+            <mat-error *ngIf="formService.email.hasError('email')">
+              Please provide email provider
+            </mat-error>
+          </mat-form-field>
+            <mat-form-field>
+              <input matInput type="password" placeholder="Password" formControlName="password" maxlength=16>
+              <mat-error *ngIf="formService.password.invalid">
+                Please input user password
+              </mat-error>
+              <mat-error *ngIf="formService.password.hasError('minLength')">
+                Password must be more than 8 characters
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" maxlength=16>
+              <mat-error *ngIf="formService.confirmPassword.hasError('required') && formService.confirmPassword.touched">
+                <mat-error></mat-error>
+              </mat-error>
+              <mat-error *ngIf="formService.userForm.hasError('notmatched')">
+                Password not matched
+              </mat-error>
+            </mat-form-field>
+        </div>
+    <div class="btn-center">
+      <button mat-raised-button [disabled]="formService.userForm.invalid" type="submit">Submit</button>
+      <button mat-raised-button (click)="onClose()">Cancel</button>
+    </div>
+  </form>

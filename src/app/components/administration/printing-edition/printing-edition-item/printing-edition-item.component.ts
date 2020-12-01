@@ -4,14 +4,12 @@ import { select, Store } from '@ngrx/store';
 
 import { Currency } from 'src/app/enums/CurrencyType';
 import { Edition } from 'src/app/enums/EditionType';
-import { Author } from 'src/app/models/author/Author';
-import { AuthorInPrintingEdition } from 'src/app/models/author/AuthorInPrintingEdition';
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { Author } from 'src/app/models/author/author';
 
 import { getAuthors } from 'src/app/store/author/author.actions';
 import { getAuthorsSelector } from 'src/app/store/author/author.selector';
 import { addPrintingEdition, updatePrintingEdition } from 'src/app/store/printing-edition/printing-edition.actions';
-import { PrintingEditionFormService } from './printing-edition-form.service';
+import { PrintingEditionFormService } from '../../../../services/form-services/printing-edition-form.service';
 
 
 @Component({
@@ -53,33 +51,11 @@ export class PrintingEditionItemComponent implements OnInit {
 
   onSubmit(){
     if(this.formService.printingEditionForm.valid){
-      let authorsIds: Array<number> = this.formService.authorsList.value
-
-      let printingEdition: PrintingEdition = {
-        id: this.formService.id.value,
-        title: this.formService.title.value,
-        description: this.formService.description.value,
-        price: this.formService.price.value,
-        editionType: this.formService.typeValue.value,
-        editionCurrency: this.formService.currencyValue.value,
-      }
-
-      var authorInPE : Array<AuthorInPrintingEdition> = []
-
-      for (let i = 0; i < authorsIds.length; i++) {
-        authorInPE.push({
-          authorId: authorsIds[i],
-          printingEditionId: this.formService.id.value
-        })
-      }
-
-      printingEdition.authorInPrintingEditions = authorInPE
-
-      console.log(printingEdition)
+      let printingEdition = this.formService.printingEditionFromForm()
       if(this.formService.id.value === 0){
-        this.store.dispatch(addPrintingEdition(printingEdition))
+        this.store.dispatch(addPrintingEdition({printinEditionToAdd: printingEdition}))
       }else{
-        this.store.dispatch(updatePrintingEdition(printingEdition))
+        this.store.dispatch(updatePrintingEdition({printingEditionToUpdate: printingEdition}))
       }
       this.onClose()
     }

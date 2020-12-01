@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
-import { Author } from 'src/app/models/author/Author';
+import { Author } from 'src/app/models/author/author';
 import { deleteAuthor, getAuthors } from 'src/app/store/author/author.actions';
 import { getAuthorsSelector,
          getPreviousPageSelector,
@@ -12,7 +12,8 @@ import { getAuthorsSelector,
 import { MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { AuthorItemComponent } from './author-item/author-item.component';
 import { getPageNumberSelector } from 'src/app/store/author/author.selector';
-import { AuthorFormService } from './author-item/author-form.service';
+import { AuthorFormService } from '../../../services/form-services/author-form.service';
+import { AuthorState } from 'src/app/store/author/author.reducer';
 
 
 
@@ -34,7 +35,7 @@ export class AuthorComponent implements OnInit {
   previousPage: boolean = true
 
 
-  constructor(private store: Store,
+  constructor(private store: Store<AuthorState>,
               private dialog: MatDialog,
               private formService: AuthorFormService) { }
 
@@ -120,6 +121,8 @@ export class AuthorComponent implements OnInit {
         this.nextPage = false
       }
     )
+    this.availabilityNextPage()
+    this.availabilityPreviousPage()
   }
 
   availabilityNextPage(): boolean{
@@ -144,8 +147,7 @@ export class AuthorComponent implements OnInit {
         if(data === null){
           this.previousPage = true
           return true
-        }
-        else{
+        }else{
           this.nextPage = false
           return false
         }

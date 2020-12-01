@@ -1,122 +1,103 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 import { AppState } from '../states/app-state';
 
 import * as printingEditionActions from '../printing-edition/printing-edition.actions';
-
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { map } from 'rxjs/internal/operators';
+import { act } from '@ngrx/effects';
 
 export const PRINTING_EDITION_REDUCER_NODE = 'printing edition'
 
-export interface PrintingEditionState extends AppState{
-  printingEditions: PrintingEdition[]
+export interface PrintingEditionState extends AppState, EntityState<PrintingEdition> {
   selectedPrintingEdition: PrintingEdition
+  error: undefined
 }
 
-export const initialPrintingEditionState: PrintingEditionState = {
-  printingEditions: null,
+export const peAdapter: EntityAdapter<PrintingEdition> = createEntityAdapter<PrintingEdition>()
+
+export const initialPrintingEditionState = peAdapter.getInitialState({
   selectedPrintingEdition: null,
   pageNumber: 1,
   pageSize: 6,
   nextPage: null,
   previousPage: null,
-  errorMessage: null
-}
+  error: null
+})
 
 export const printingEditionReducer = createReducer(
   initialPrintingEditionState,
 
- on(printingEditionActions.getPrintingEditions, state => ({
-  ...state,
- })),
- on(printingEditionActions.getPrintingEditionsSuccess, (state, action) => ({
-  ...state,
-  printingEditions: action.data,
-  selectedPrintingEdition: null,
-  pageNumber: action.pageNumber,
-  pageSize: action.pageSize,
-  nextPage: action.nextPage,
-  previousPage: action.previousPage
- })),
- on(printingEditionActions.getPrintingEditionsFailure, (state, action) => ({
-   ...state,
-   errorMessage: action.errorMessage
- })),
+  on(printingEditionActions.getPrintingEditionsSuccess, (state, action) =>
+    peAdapter.setAll(action.data, {
+      ...state,
+      pageNumber: action.pageNumber,
+      pageSize: action.pageSize,
+      nextPage: action.nextPage,
+      previousPage: action.previousPage,
+    })
+  ),
+  on(printingEditionActions.getPrintingEditionsFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
+  on(printingEditionActions.getPrintingEditionSuccess, (state, action) => {
+    return{
+      ...state,
+      selectedPrintingEdition: action.printingEdition
+    }
+  }),
+  on(printingEditionActions.getPrintingEditionFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
- on(printingEditionActions.getPrintingEdition, state => ({
-   ...state,
-   selectedPrintingEdition: null
- })),
- on(printingEditionActions.getPrintingEditionSuccess, (state, printingEdition) => ({
-   ...state,
-   selectedPrintingEdition: printingEdition
- })),
- on(printingEditionActions.getPrintingEditionFailure, (state, action) => ({
-   ...state,
-   errorMessage: action.errorMessage
- })),
+  on(printingEditionActions.addPrintingEditionSuccess, (state, action) =>
+    peAdapter.addOne(action.printinEditionAdded, state)
+  ),
+  on(printingEditionActions.addPrintingEditionFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
+  on(printingEditionActions.updatePrintingEditionSuccess, (state, action) =>
+    peAdapter.updateOne(action.printingEditionUpdated,state)
+  ),
+  on(printingEditionActions.updatePrintingEditionFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
- on(printingEditionActions.addPrintingEdition, state => ({
-   ...state
- })),
- on(printingEditionActions.addPrintingEditionSuccess, (state, printingEdition) => ({
-   ...state,
-   printingEditions: state.printingEditions.length === state.pageSize ? [...state.printingEditions] :
-                     [...state.printingEditions, printingEdition]
- })),
- on(printingEditionActions.addPrintingEditionFailure, (state, action) => ({
-   ...state,
-   errorMessage: action.errorMessage
- })),
-
- on(printingEditionActions.updatePrintingEdition, state => ({
-   ...state
- })),
- on(printingEditionActions.updatePrintingEditionSuccess, (state, printingEdition) => ({
-   ...state,
-   printingEditions: state.printingEditions.map(pe => pe.id === printingEdition.id ? {
-    ...pe,
-    printingEdition: printingEdition,
-   } : pe)
- })),
- on(printingEditionActions.updatePrintingEditionFailure, (state, action) => ({
-   ...state,
-   errorMessage: action.errorMessage
- })),
-
- on(printingEditionActions.deletePrintingEdition, (state, printingEdition) => ({
-   ...state,
-   selectedPrintingEdition: state.printingEditions.find(pe => pe.id === printingEdition.id)
- })),
- on(printingEditionActions.deletePrintingEditionSuccess, state => ({
-   ...state,
-   selectedPrintingEdition: null,
-   printingEditions: state.printingEditions.filter(pe => pe.id != state.selectedPrintingEdition.id)
- })),
- on(printingEditionActions.deletePrintingEditionFailure , (state, action) => ({
-  ...state,
-  errorMessage: action.errorMessage
- })),
-
-
-//  on(printingEditionActions.removePrintingEdition, (state, action) => ({
-//    ...state,
-//    selectedPrintingEdition: state.printingEditions.find(pe => pe. === action.id)
-//  })),
-//  on(printingEditionActions.removePrintingEditionSuccess, (state, action) => ({
-//    ...state,
-//    printingEditions: state.printingEditions.map(pe => pe.id === action.printingEditionRemoved.id ? {
-//      ...pe,
-//      printingEdition: action.printingEditionRemoved
-//    } : pe)
-//  })),
-//  on(printingEditionActions.removePrintingEditionFailure, (state, action) => ({
-//    ...state,
-//    errorMessage: action.errorMessage
-//  }))
+  on(printingEditionActions.deletePrintingEdition, (state, action) => {
+    return{
+      ...state,
+      selectedPrintingEdition: state.entities[action.id]
+    }
+  }),
+  on(printingEditionActions.deletePrintingEditionSuccess, state =>
+    peAdapter.removeOne(state.selectedPrintingEdition.id, {
+      ...state,
+      selectedPrintingEdition: null
+    })
+  ),
+  on(printingEditionActions.deletePrintingEditionFailure , (state, action) => {
+    return{
+      ...state,
+      erroe: action.error
+    }
+  }),
 )
 
+export const { selectAll } = peAdapter.getSelectors();
 
 

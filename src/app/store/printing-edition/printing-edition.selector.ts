@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { PrintingEditionState, PRINTING_EDITION_REDUCER_NODE } from './printing-edition.reducer';
+import { PrintingEditionState, PRINTING_EDITION_REDUCER_NODE, selectAll } from './printing-edition.reducer';
 
 const getPrintingEditionFeature = createFeatureSelector<PrintingEditionState>(PRINTING_EDITION_REDUCER_NODE)
 
 export const getPrintingEditionsSelector = createSelector(
   getPrintingEditionFeature,
-  state => state.printingEditions
+  selectAll
 )
 
 export const getPreviousPageSelector = createSelector(

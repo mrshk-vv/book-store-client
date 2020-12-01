@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Author } from 'src/app/models/author/Author';
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { Author } from 'src/app/models/author/author';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
+import { PrintingEditionItem } from 'src/app/models/printingEdition/printing-edition-item';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,6 @@ export class PrintingEditionFormService {
         editionCurrency: printingEdition.editionCurrency.toString(),
         isRemoved: printingEdition.isRemoved
       })
-      console.log(this.authorsList.value)
   }
 
   get id(){
@@ -78,5 +78,17 @@ export class PrintingEditionFormService {
 
   get isRemoved(){
     return this.printingEditionForm.get('isRemoved') as FormControl
+  }
+
+  printingEditionFromForm(): PrintingEditionItem{
+    return {
+      id: this.id.value,
+      title: this.title.value,
+      description: this.description.value,
+      price: this.price.value,
+      editionType: this.typeValue.value,
+      editionCurrency: this.currencyValue.value,
+      authors: this.authorsList.value
+    }
   }
 }

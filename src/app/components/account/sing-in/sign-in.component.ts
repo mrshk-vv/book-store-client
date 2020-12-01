@@ -37,8 +37,6 @@ export class SignInComponent implements OnInit {
         email: this.email.value,
         password: this.password.value
       }))
-      this.signInForm.reset()
-      this.router.navigate([''])
     }
   }
 

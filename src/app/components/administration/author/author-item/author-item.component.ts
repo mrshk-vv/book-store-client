@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
-import { Author } from 'src/app/models/author/Author';
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { Author } from 'src/app/models/author/author';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 import { addAuthor, updateAuthor } from 'src/app/store/author/author.actions';
 import { getPrintingEditions } from 'src/app/store/printing-edition/printing-edition.actions';
 import { getPrintingEditionsSelector } from 'src/app/store/printing-edition/printing-edition.selector';
-import { AuthorFormService } from './author-form.service';
+import { AuthorFormService } from '../../../../services/form-services/author-form.service';
 
 @Component({
   selector: 'app-author-item',
@@ -41,9 +41,9 @@ export class AuthorItemComponent implements OnInit {
     if(this.formService.authorForm.valid){
       let author = this.formService.authorFromForm
       if(this.formService.id.value === 0){
-        this.store.dispatch(addAuthor(author))
+        this.store.dispatch(addAuthor({authorToAdd: author}))
       }else{
-        this.store.dispatch(updateAuthor(author))
+        this.store.dispatch(updateAuthor({authorToUpdate: author}))
       }
       this.onClose()
     }

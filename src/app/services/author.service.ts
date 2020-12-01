@@ -3,10 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Author } from '../models/author/Author';
-import { PagedResponce } from '../models/common/PagedResponce';
-import { PaginationQuery } from '../models/common/PaginationQuery';
-import { AuthorFilter } from '../models/filters/AuthorFilter';
+import { Author } from '../models/author/author';
+import { AuthorItem } from '../models/author/author-item';
+import { PagedResponce } from '../models/common/paged-responce';
+import { PaginationQuery } from '../models/common/pagination-query';
+import { AuthorFilter } from '../models/filters/author.filter';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,11 @@ constructor(private http: HttpClient) { }
     return this.http.get<Author[]>(`${this.authorBaseUrl}/getAuthorsList`)
   }
 
-  public addAuthor(authorToAdd: Author): Observable<Author>{
+  public addAuthor(authorToAdd: AuthorItem): Observable<Author>{
     return this.http.post<Author>(`${this.authorBaseUrl}/createAuthor`, authorToAdd)
   }
 
-  public updateAuthor(authorToUpdate: Author): Observable<Author>{
+  public updateAuthor(authorToUpdate: AuthorItem): Observable<Author>{
     return this.http.post<Author>(`${this.authorBaseUrl}/updateAuthor`, authorToUpdate)
   }
 

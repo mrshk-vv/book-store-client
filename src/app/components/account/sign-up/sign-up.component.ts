@@ -5,6 +5,8 @@ import { select, Store } from '@ngrx/store';
 import { getAuthMessage, getSignedUpStatus } from 'src/app/store/account/account.selector';
 import { Router } from '@angular/router';
 
+import { Guid } from "guid-typescript";
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -18,7 +20,7 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   formSubmited: boolean;
 
-  constructor(private formBuilder: FormBuilder, private store : Store, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private store : Store) { }
 
   ngOnInit(): void {
     this.createSignUpForm()
@@ -27,6 +29,7 @@ export class SignUpComponent implements OnInit {
   signUp(){
     if(this.signUpForm.valid){
       this.store.dispatch(accountActions.singUp({
+        id: Guid.create().toString(),
         firstName: this.firstName.value,
         lastName: this.lastName.value,
         email: this.email.value,

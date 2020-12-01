@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { select, Store } from '@ngrx/store';
-import { AuthData } from './models/AuthData';
+import { AuthData } from './models/auth-data';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './services/account.service';
 import { refreshTokens } from './store/account/account.actions';
 import { getAuthStatus } from './store/account/account.selector';

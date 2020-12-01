@@ -34,6 +34,11 @@ export const getAuthData = createSelector(
   state => state.authData
 )
 
+export const getRoleSelector = createSelector(
+  getAccountFeature,
+  state => state.authData.role
+)
+
 
 
 

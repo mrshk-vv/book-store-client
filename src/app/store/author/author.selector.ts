@@ -1,21 +1,21 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AuthorState, AUTHOR_REDUCER_NODE } from './author.reducer';
+import { AuthorState, AUTHOR_REDUCER_NODE, selectAll } from './author.reducer';
 
 export const getAuthorFeature = createFeatureSelector<AuthorState>(AUTHOR_REDUCER_NODE)
 
 export const getAuthorsSelector = createSelector(
   getAuthorFeature,
-  state => state.authors
-)
-
-export const getPageNumberSelector = createSelector(
-  getAuthorFeature,
-  state => state.pageNumber
+  selectAll
 )
 
 export const getPageSizeSelector = createSelector(
   getAuthorFeature,
   state => state.pageSize
+)
+
+export const getPageNumberSelector = createSelector(
+  getAuthorFeature,
+  state => state.pageNumber
 )
 
 export const getNextPageSelector = createSelector(

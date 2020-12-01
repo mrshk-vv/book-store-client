@@ -1,121 +1,100 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 
-import { Author } from 'src/app/models/author/Author';
+import { Author } from 'src/app/models/author/author';
 import * as authorActions from 'src/app/store/author/author.actions';
 
 import { AppState } from '../states/app-state';
 
 export const AUTHOR_REDUCER_NODE = 'author'
 
-export interface AuthorState extends AppState{
-  authors: Author[],
-  selectedAuthor: Author
+export interface AuthorState extends AppState, EntityState<Author>{
+  selectedAuthor: Author,
+  error: undefined
 }
 
-export const initialAuthorState: AuthorState = {
-  authors: null,
+export const authorAdapter: EntityAdapter<Author> = createEntityAdapter<Author>()
+
+export const initialAuthorState = authorAdapter.getInitialState({
   selectedAuthor: null,
   pageNumber: 1,
   pageSize: 6,
   nextPage: null,
   previousPage: null,
-  errorMessage: null
-}
+  error: null
+})
 
 export const authorReducer = createReducer(
   initialAuthorState,
-  on(authorActions.getAuthor, state => ({
-    ...state,
-    selectedAuthor: null
-  })),
-  on(authorActions.getAuthorSuccess, (state, author) =>({
-    ...state,
-    selectedAuthor: author
-  })),
-  on(authorActions.getAuthorFailure, (state, action) => ({
-    ...state,
-    errorMessage: action.errorMessage
-  })),
 
+  on(authorActions.getAuthorsSuccess, (state, action) =>
+    authorAdapter.setAll(action.data, {
+      ...state,
+      pageNumber: action.pageNumber,
+      pageSize: action.pageSize,
+      nextPage: action.nextPage,
+      previousPage: action.previousPage,
+    })
+  ),
+  on(authorActions.getAuthorsFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
-  on(authorActions.getAuthors, state => ({
-    ...state,
-  })),
-  on(authorActions.getAuthorsSuccess, (state, action) => ({
-    ...state,
-    authors: action.data,
-    pageNumber: action.pageNumber,
-    pageSize: action.pageSize,
-    nextPage: action.nextPage,
-    previousPage: action.previousPage
-  })),
-  on(authorActions.getAuthorFailure, (state, action) => ({
-    ...state,
-    errorMessage: action.errorMessage
-  })),
+  on(authorActions.getAuthorSuccess, (state, action) => {
+    return{
+      ...state,
+      selectedPrintingEdition: action.author
+    }
+  }),
+  on(authorActions.getAuthorFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
-  on(authorActions.getAuthorsList, state => ({
-    ...state
-  })),
-  on(authorActions.getAuthorsListSuccess, (state, action) => ({
-    ...state,
-    authors: action.authors
-  })),
+  on(authorActions.addAuthorSuccess, (state, action) =>
+    authorAdapter.addOne(action.authorAdded, state)
+  ),
+  on(authorActions.addAuthorFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
+  on(authorActions.updateAuthorSuccess, (state, action) =>
+    authorAdapter.updateOne(action.authorUpdated, state)
+  ),
+  on(authorActions.updateAuthorFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
 
-  on(authorActions.addAuthor, state => ({
-    ...state
-  })),
-  on(authorActions.addAuthorSuccess, (state, authorAdded) => ({
-    ...state,
-    authors: [...state.authors, authorAdded]
-  })),
-  on(authorActions.addAuthorFailure, (state, action) => ({
-    ...state,
-    errorMessage: action.errorMessage
-  })),
-
-
-  // on(authorActions.updateAuthor, state => ({
-  //   ...state
-  // })),
-  // on(authorActions.updateAuthorSuccess, (state, action) => ({
-  //   ...state,
-  //   authors: state.authors.map(a => a.id === action.authorUpdated.id ? {
-  //     ...a,
-  //     author: action.authorUpdated
-  //   }: a)
-  // })),
-  // on(authorActions.updateAuthorFailure, (state, action) => ({
-  //   ...state,
-  //   errorMessage: action.errorMessage
-  // })),
-
-
-  // on(authorActions.removeAuthor, state => ({
-  //   ...state
-  // })),
-  // on(authorActions.removeAuthorSuccess, (state, action) => ({
-  //   ...state,
-  //   authors: [...state.authors, action.authorRemoved]
-  // })),
-  // on(authorActions.removeAuthorFailure, (state, action) => ({
-  //   ...state,
-  //   errorMessage: action.errorMessage
-  // })),
-
-
-  on(authorActions.deleteAuthor, (state, action) => ({
-    ...state,
-    selectedAuthor: state.authors.find(a => a.id === action.id)
-  })),
-  on(authorActions.deleteAuthorSuccess, state => ({
-    ...state,
-    authors: state.authors.filter(a => a.id != state.selectedAuthor.id)
-  })),
-  on(authorActions.deleteAuthorFailure, (state, action) => ({
-    ...state,
-    errorMessage: action.errorMessage
-  }))
-
+  on(authorActions.deleteAuthor, (state, action) => {
+    return{
+      ...state,
+      selectedAuthor: state.entities[action.id]
+    }
+  }),
+  on(authorActions.deleteAuthorSuccess, state => {
+    authorAdapter.removeOne(state.selectedAuthor.id, state)
+    return{
+      ...state,
+      selectedAuthor: null
+    }
+  }),
+  on(authorActions.deleteAuthorFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  })
 )
+
+export const { selectAll } = authorAdapter.getSelectors()

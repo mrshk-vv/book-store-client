@@ -1,3 +1,12 @@
+.btn-center{
+  text-align: center;
+}
+
+button{
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 150px;
+}
 
 
 .ng-invalid.ng-touched{
@@ -31,12 +40,12 @@
 }
 
 .controles-container{
-  width: 100%;
+  width: 95%;
   padding: 5%;
 }
 
 .controles-container > * {
-  width: 100%;
+  width: 95%;
 }
 
 .pagination{

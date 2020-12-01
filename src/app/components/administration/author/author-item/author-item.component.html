@@ -2,8 +2,6 @@
   <span style="text-align: center;">{{formService.id.value != 0 ?"Edit Author":"Add Author"}}</span>
 </mat-toolbar>
   <form [formGroup]="formService.authorForm" (submit)="onSubmit()">
-    <mat-grid-list cols="1" rowWeight="500">
-      <mat-grid-tile>
         <div class="controles-container">
           <mat-form-field>
             <input type="hidden" formControlName="id">
@@ -13,20 +11,16 @@
               Please input author name
             </mat-error>
           </mat-form-field>
-
           <mat-form-field *ngIf="formService.id.value != 0">
             <mat-label>Author Printing Editions</mat-label>
             <mat-select formControlName="printingEditions" multiple>
-              <mat-option *ngFor="let printingEdition of printingEditions" [value]='printingEdition'>
+              <mat-option *ngFor="let printingEdition of printingEditions" [value]='printingEdition.id'>
                 {{printingEdition.title}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="formService.printingEditionList.invalid && formService.printingEditionList.touched"></mat-error>
           </mat-form-field>
         </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-
     <div class="btn-center">
       <button mat-raised-button [disabled]="formService.authorForm.invalid" type="submit">Submit</button>
       <button mat-raised-button (click)="onClose()">Cancel</button>

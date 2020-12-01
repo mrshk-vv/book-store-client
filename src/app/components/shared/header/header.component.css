@@ -1,4 +1,13 @@
 a{
-  margin-right: 3rem;
   color: black;
+  margin-right: 10%;
+}
+
+.menu-button{
+  width: 250px;
+  height: auto;
+}
+.mat-menu-button{
+  width: 500px;
+  margin-right: 50px;
 }

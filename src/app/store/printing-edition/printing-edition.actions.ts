@@ -1,9 +1,10 @@
+import { Update } from '@ngrx/entity/src';
 import { createAction, props } from '@ngrx/store';
-import { PagedResponce } from 'src/app/models/common/PagedResponce';
-import { PaginationQuery } from 'src/app/models/common/PaginationQuery';
-import { PrintingEditionFilter } from 'src/app/models/filters/PrintingEditionFilter';
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
-import { PrintingEditionItem } from 'src/app/models/PrintingEdition/PrintingEditionItem';
+import { PagedResponce } from 'src/app/models/common/paged-responce';
+import { PaginationQuery } from 'src/app/models/common/pagination-query';
+import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
+import { PrintingEditionItem } from 'src/app/models/printingEdition/printing-edition-item';
 
 export enum PrintingEditionActions{
   GET_PRINTING_EDITION = '[Printing Edition] Get Printing Edition',
@@ -38,12 +39,12 @@ export const getPrintingEdition = createAction(
 
 export const getPrintingEditionSuccess = createAction(
   PrintingEditionActions.GET_PRINTING_EDITION_SUCCESS,
-  props<PrintingEdition>()
+  props<{printingEdition: PrintingEdition}>()
 )
 
 export const getPrintingEditionFailure = createAction(
   PrintingEditionActions.GET_PRINTING_EDITION_FAILURE,
-  props<{errorMessage: string}>()
+  props<{error: any}>()
 )
 
 export const getPrintingEditions = createAction(
@@ -53,42 +54,42 @@ export const getPrintingEditions = createAction(
 
 export const getPrintingEditionsSuccess = createAction(
   PrintingEditionActions.GET_PRINTING_EDITIONS_SUCCESS,
-  props<PagedResponce>()
+  props<PagedResponce>(),
 )
 
 export const getPrintingEditionsFailure = createAction(
   PrintingEditionActions.GET_PRINTING_EDITIONS_FAILURE,
-  props<{errorMessage: string}>()
+  props<{error: any}>()
 )
 
 export const addPrintingEdition = createAction(
   PrintingEditionActions.ADD_PRINTING_EDITION,
-  props<PrintingEdition>()
+  props<{printinEditionToAdd: PrintingEditionItem}>()
 )
 
 export const addPrintingEditionSuccess = createAction(
   PrintingEditionActions.ADD_PRINTING_EDITION_SUCCESS,
-  props<PrintingEdition>()
+  props<{printinEditionAdded: PrintingEdition}>()
 )
 
 export const addPrintingEditionFailure = createAction(
   PrintingEditionActions.ADD_PRINTING_EDITION_FAILURE,
-  props<{errorMessage: string}>()
+  props<{error: any}>()
 )
 
 export const updatePrintingEdition = createAction(
   PrintingEditionActions.UPDATE_PRINTING_EDITION,
-  props<PrintingEdition>()
+  props<{printingEditionToUpdate: PrintingEditionItem}>()
 )
 
 export const updatePrintingEditionSuccess = createAction(
   PrintingEditionActions.UPDATE_PRINTING_EDITION_SUCCESS,
-  props<PrintingEdition>()
+  props<{printingEditionUpdated: Update<PrintingEdition>}>()
 )
 
 export const updatePrintingEditionFailure = createAction(
-  PrintingEditionActions.UPDATE_PRINTING_EDITION_SUCCESS,
-  props<{errorMessage: string}>()
+  PrintingEditionActions.UPDATE_PRINTING_EDITION_FAILURE,
+  props<{error: any}>()
 )
 
 export const removePrintingEdition = createAction(
@@ -103,7 +104,7 @@ export const removePrintingEditionSuccess = createAction(
 
 export const removePrintingEditionFailure = createAction(
   PrintingEditionActions.REMOVE_PRINTING_EDITION_FAILURE,
-  props<{errorMessage: string}>()
+  props<{error: any}>()
 )
 
 export const deletePrintingEdition = createAction(
@@ -117,6 +118,6 @@ export const deletePrintingEditionSuccess = createAction(
 
 export const deletePrintingEditionFailure = createAction(
   PrintingEditionActions.DELETE_PRINTING_EDITION_FAILURE,
-  props<{errorMessage: string}>()
+  props<{error: any}>()
 )
 

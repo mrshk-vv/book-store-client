@@ -6,10 +6,10 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/internal/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { Author } from 'src/app/models/author/Author';
+import { Author } from 'src/app/models/author/author';
 import { AuthorService } from 'src/app/services/author.service';
 import * as authorActions from 'src/app/store/author/author.actions';
-import { PaginationQuery } from 'src/app/models/common/PaginationQuery';
+import { PaginationQuery } from 'src/app/models/common/pagination-query';
 
 @Injectable()
 export class AuthorEffects{
@@ -18,7 +18,7 @@ export class AuthorEffects{
     ofType(authorActions.getAuthor),
     switchMap(action => this.author.getAuthor(action.id)
     .pipe(
-      map((author: Author) => authorActions.getAuthorSuccess(author)),
+      map(action => authorActions.getAuthorSuccess({author: action})),
       catchError(err => of(authorActions.getAuthorFailure(err)))
     )
   )))
@@ -34,37 +34,27 @@ export class AuthorEffects{
     )
   )))
 
-  getAuthorsList$ = createEffect(() => this.actions$.pipe(
-    ofType(authorActions.getAuthorsList),
-    mergeMap(() => this.author.getAuthorsList().pipe(
-      map(authors => authorActions.getAuthorsListSuccess({authors: authors}))
-    ))
-  ))
-
   addAuthor$ = createEffect(() => this.actions$.pipe(
     ofType(authorActions.addAuthor),
-    switchMap(action => this.author.addAuthor(action)
+    switchMap(action => this.author.addAuthor(action.authorToAdd)
     .pipe(
-      map((author: Author) => authorActions.addAuthorSuccess(author)),
+      map(author => authorActions.addAuthorSuccess({authorAdded: author})),
       catchError(err => of(authorActions.addAuthorFailure(err)))
     )
   )))
 
   updateAuthor$ = createEffect(() => this.actions$.pipe(
     ofType(authorActions.updateAuthor),
-    switchMap(action => this.author.updateAuthor(action)
+    switchMap(action => this.author.updateAuthor(action.authorToUpdate)
     .pipe(
-      map((author: Author) => authorActions.updateAuthorSuccess(author)),
+      map(author => authorActions.updateAuthorSuccess(
+        {
+          authorUpdated: {
+            id: author.id,
+            changes: author
+          }
+      })),
       catchError(err => of(authorActions.updateAuthorFailure(err)))
-    )
-  )))
-
-  removeAuthor$ = createEffect(() => this.actions$.pipe(
-    ofType(authorActions.removeAuthor),
-    switchMap(action => this.author.removeAuthor(action.id)
-    .pipe(
-      map((author: Author) => authorActions.removeAuthorSuccess(author)),
-      catchError(err => of(authorActions.removeAuthorFailure(err)))
     )
   )))
 

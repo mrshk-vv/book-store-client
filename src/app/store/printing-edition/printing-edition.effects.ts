@@ -2,10 +2,9 @@ import { Injectable } from "@angular/core";
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/internal/operators';
 
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
 import { PrintingEditionService } from 'src/app/services/printing-edition.service';
 import * as printingEditionActions from '../printing-edition/printing-edition.actions';
 
@@ -17,7 +16,7 @@ export class PrintingEditionEffects{
     switchMap(action => this.printingEdition.getPrintingEdition(
       action.id.toString()
     ).pipe(
-      map((printingEdition: PrintingEdition) => printingEditionActions.getPrintingEditionSuccess(printingEdition)),
+      map(printingEdition => printingEditionActions.getPrintingEditionSuccess({printingEdition: printingEdition})),
       catchError(errorMessage => of(printingEditionActions.getPrintingEditionFailure(errorMessage)))
     )
   )))
@@ -29,25 +28,32 @@ export class PrintingEditionEffects{
       action.filter
     ).pipe(
       map(pagedResponce => printingEditionActions.getPrintingEditionsSuccess(pagedResponce)),
-      catchError(errorMessage => of(printingEditionActions.getPrintingEditionsFailure(errorMessage)))
+      catchError(err => of(printingEditionActions.getPrintingEditionsFailure(err)))
     )
   )))
 
   addPrintingEdition$ = createEffect(() => this.actions$.pipe(
     ofType(printingEditionActions.addPrintingEdition),
-    switchMap(printingEditionItem => this.printingEdition.addPrintingEdition(printingEditionItem)
+    switchMap(action => this.printingEdition.addPrintingEdition(action.printinEditionToAdd)
     .pipe(
-      map((printingEdition: PrintingEdition) => printingEditionActions.addPrintingEditionSuccess(printingEdition)),
-      catchError(err => of(printingEditionActions.addPrintingEditionFailure({errorMessage: err})))
+      map(printingEdition => printingEditionActions.addPrintingEditionSuccess({printinEditionAdded: printingEdition})),
+      catchError(err => of(printingEditionActions.addPrintingEditionFailure({error: err})))
     )
   )))
 
   updatePrintingEdition$ = createEffect(() => this.actions$.pipe(
     ofType(printingEditionActions.updatePrintingEdition),
-    switchMap(printingEditionItem => this.printingEdition.updatePrintingEdition(printingEditionItem)
+    switchMap(action => this.printingEdition.updatePrintingEdition(action.printingEditionToUpdate)
     .pipe(
-      map((printingEdition: PrintingEdition) => printingEditionActions.updatePrintingEditionSuccess(printingEdition)),
-      catchError(err => of(printingEditionActions.updatePrintingEditionFailure({errorMessage: err})))
+      map(printingEdition => printingEditionActions.updatePrintingEditionSuccess(
+        {
+          printingEditionUpdated: {
+          id: printingEdition.id,
+          changes: printingEdition
+          }
+        }
+      )),
+      catchError(err => of(printingEditionActions.updatePrintingEditionFailure({error: err})))
     )
   )))
 
@@ -56,19 +62,9 @@ export class PrintingEditionEffects{
     switchMap(printingEdition => this.printingEdition.deletePrintingEdition(printingEdition.id)
     .pipe(
       map(() => printingEditionActions.deletePrintingEditionSuccess()),
-      catchError(err => of(printingEditionActions.deletePrintingEditionFailure({errorMessage: err})))
+      catchError(err => of(printingEditionActions.deletePrintingEditionFailure({error: err})))
     )
   )))
-
-  removePrintingEdition$ = createEffect(() => this.actions$.pipe(
-    ofType(printingEditionActions.removePrintingEdition),
-    switchMap(action => this.printingEdition.removePrintingEdition(action.id.toString())
-    .pipe(
-      map((printingEdition: PrintingEdition) => printingEditionActions.removePrintingEditionSuccess(printingEdition)),
-      catchError(err => of(printingEditionActions.removePrintingEditionFailure({errorMessage: err})))
-    )
-  )))
-
 
   constructor(private actions$: Actions, private printingEdition: PrintingEditionService){}
 }

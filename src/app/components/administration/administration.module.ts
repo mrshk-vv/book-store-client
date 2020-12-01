@@ -28,6 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 
 import { AuthorItemComponent } from './author/author-item/author-item.component';
@@ -37,10 +39,14 @@ import { EnumsToArrayPipe } from 'src/app/shared/pipes/enums-to-array.pipe';
 
 import {RoleGuardService as RoleGuard, ROLE_GUARD}  from 'src/app/shared/auth/role-guard.service';
 import { MatSortModule } from '@angular/material/sort';
+import { UserComponent } from './user/user.component';
+import { UserItemComponent } from './user/user-item/user-item.component';
+import { userReducer, USER_REDUCER_NODE } from 'src/app/store/user/user.reducer';
+import { UserEffects } from 'src/app/store/user/user.effects';
 
 export const routes: Routes = [
   {
-    path:'administration/printingEditions',
+    path:'administration/printing-editions',
     component: PrintingEditionComponent,
     canActivate: [RoleGuard],
     data: {
@@ -54,11 +60,10 @@ export const routes: Routes = [
     data: {
       expectedRole: 'Admin'
     }
-
   },
   {
-    path:'administration/test',
-    component: AuthorItemComponent,
+    path: 'administration/users',
+    component: UserComponent,
     canActivate: [RoleGuard],
     data: {
       expectedRole: 'Admin'
@@ -73,16 +78,20 @@ export const routes: Routes = [
     PrintingEditionItemComponent,
     AuthorComponent,
     AuthorItemComponent,
+    UserComponent,
+    UserItemComponent,
+
     CurrencyPipe,
     EditionPipe,
-    EnumsToArrayPipe
+    EnumsToArrayPipe,
   ],
   imports: [
     CommonModule,
     RouterModule.forRoot(routes),
     StoreModule.forFeature(AUTHOR_REDUCER_NODE,authorReducer),
     StoreModule.forFeature(PRINTING_EDITION_REDUCER_NODE, printingEditionReducer),
-    EffectsModule.forFeature([AuthorEffects,PrintingEditionEffects]),
+    StoreModule.forFeature(USER_REDUCER_NODE, userReducer),
+    EffectsModule.forFeature([AuthorEffects, PrintingEditionEffects, UserEffects]),
     ReactiveFormsModule,
     FormsModule,
 
@@ -96,7 +105,8 @@ export const routes: Routes = [
     MatProgressSpinnerModule,
     MatDialogModule,
     MatToolbarModule,
-    MatSortModule
+    MatSortModule,
+    MatSlideToggleModule
   ],
   exports: [
     MatTableModule,
@@ -109,7 +119,8 @@ export const routes: Routes = [
     MatProgressSpinnerModule,
     MatDialogModule,
     MatToolbarModule,
-    MatSortModule
+    MatSortModule,
+    MatSlideToggleModule
   ],
   providers: [
     {
@@ -117,6 +128,6 @@ export const routes: Routes = [
       useClass: RoleGuard,
     }
   ],
-  entryComponents:[AuthorItemComponent, PrintingEditionItemComponent]
+  entryComponents:[AuthorItemComponent, PrintingEditionItemComponent, UserItemComponent]
 })
 export class AdministrationModule { }

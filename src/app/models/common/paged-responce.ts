@@ -1,5 +1,5 @@
 export class PagedResponce{
-  data = []
+  data: []
   pageNumber: number
   pageSize: number
   nextPage: string

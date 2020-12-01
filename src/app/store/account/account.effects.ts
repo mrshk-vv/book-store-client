@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of, timer } from 'rxjs';
 import { catchError, delayWhen, map, mergeMap, switchMap, tap } from 'rxjs/internal/operators';
-import { AuthData } from 'src/app/models/AuthData';
+import { AuthData } from 'src/app/models/auth-data';
 import { ACCESS_TOKEN_KEY, AccountService, REFRESH_TOKEN_KEY } from 'src/app/services/account.service';
 
 import * as accountActions from 'src/app/store/account/account.actions';
@@ -24,6 +25,7 @@ export class AccountEffects{
   signUp$ = createEffect(() => this.actions$.pipe(
     ofType(accountActions.singUp),
     switchMap(action => this.account.signUp({
+      id: action.id,
       email: action.email,
       password: action.password,
       firstName: action.firstName,
@@ -68,6 +70,11 @@ export class AccountEffects{
     ))
   ))
 
+  redirectOnLoginSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(accountActions.signInSuccess),
+    tap(() => this.router.navigate(['']))
+  ), {dispatch: false})
+
   refreshTokensOnInitApp$ = createEffect(() => this.actions$.pipe(
     ofType(accountActions.refreshTokens),
     switchMap(action => this.account.refreshTokens({
@@ -77,6 +84,6 @@ export class AccountEffects{
       map((authData: AuthData) => accountActions.signInSuccess(authData))
     ))
   ))
-  constructor(private actions$: Actions, private account: AccountService) {}
+  constructor(private actions$: Actions, private account: AccountService, private router: Router) {}
 
 }

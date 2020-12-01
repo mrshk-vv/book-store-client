@@ -1,5 +1,5 @@
-import { Author } from './Author'
-import { PrintingEdition } from '../printingEdition/PrintingEdition'
+import { Author } from './author'
+import { PrintingEdition } from '../printingEdition/printing-edition'
 
 export class AuthorInPrintingEdition{
   authorId: number

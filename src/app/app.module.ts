@@ -21,7 +21,7 @@ import { AdministrationModule } from './components/administration/administration
 import { PrintingEditionModule } from './components/printingEdition/printing-edition.module';
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { SharedModule } from './components/shared/shared.module';
-import { RoleGuardService, ROLE_GUARD } from './shared/auth/role-guard.service';
+import { reducers,metaReducers } from './store/states/app-state';
 
 
 
@@ -37,8 +37,15 @@ export function tokenGetter(){
     HomeComponent,
   ],
   imports: [
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      }
+    }),
     EffectsModule.forRoot([]),
+
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Token } from 'src/app/models/Token';
-import { Inject, Injectable } from '@angular/core';
+import { Token } from 'src/app/models/tokens';
+import { Injectable } from '@angular/core';
 import { Observable, pipe } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../models/User';
-import { map, mergeMap, switchMap, tap } from 'rxjs/internal/operators';
-import { Router } from '@angular/router';
+import { UserSignUp } from '../models/user/user-sign-up';
+import { map, tap } from 'rxjs/internal/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthData } from '../models/AuthData';
+import { AuthData } from '../models/auth-data';
 
 export const ACCESS_TOKEN_KEY = 'bookstore_access_token'
 export const REFRESH_TOKEN_KEY = 'bookstore_refresh_token'
@@ -38,7 +37,7 @@ export class AccountService {
     )
   }
 
-  signUp(account: User){
+  signUp(account: UserSignUp){
     return this.http.post<string>(`${this.accountBaseUrl}/SignUp`, account)
   }
 

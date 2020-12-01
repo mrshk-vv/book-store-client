@@ -1,6 +1,6 @@
 import { Currency } from '../../enums/CurrencyType'
 import { Edition } from '../../enums/EditionType'
-import { AuthorInPrintingEdition } from '../author/AuthorInPrintingEdition'
+import { AuthorInPrintingEdition } from '../author/author-In-printing-edition'
 
 export class PrintingEdition{
   id?: number

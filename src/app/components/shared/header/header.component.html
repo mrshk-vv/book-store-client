@@ -4,7 +4,40 @@
     <div class="nav navbar-nav navbar-right">
       <div class="row">
         <a *ngIf="!(authStatus$ | async)" [routerLink]="['/account/signIn']"><span></span><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        <a *ngIf="(authStatus$ | async)" (click)="signOut()"><span></span><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <button *ngIf="(authStatus$ | async) && role==='Admin'"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+        ><mat-icon>account_circle </mat-icon></button>
+        <mat-menu class="mat-menu-button" #menu="matMenu">
+          <button class="menu-button"
+                  [routerLink]="['/administration/users']"
+                  mat-menu-item
+          >User managment <mat-icon>supervised_user_circle</mat-icon></button>
+
+          <button class="menu-button"
+                  [routerLink]="['/administration/printing-editions']"
+                  mat-menu-item
+          >Product managment <mat-icon>book</mat-icon></button>
+
+          <button class="menu-button"
+                  [routerLink]="['/administration/authors']"
+                  mat-menu-item
+          >Authors page <mat-icon>perm_identity</mat-icon></button>
+
+          <button class="menu-button"
+                  (click)="signOut()"
+                  mat-menu-item
+          >Logout <mat-icon>exit_to_app</mat-icon></button>
+
+        </mat-menu>
+
+        <button *ngIf="(authStatus$ | async) && role==='Client'"
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        ><mat-icon>account_circle </mat-icon></button>
+        <mat-menu class="mat-menu-button" #menu="matMenu">
+          <button class="menu-button" (click)="signOut()" mat-menu-item>Logout <mat-icon>exit_to_app</mat-icon></button>
+        </mat-menu>
       </div>
     </div>
 </nav>

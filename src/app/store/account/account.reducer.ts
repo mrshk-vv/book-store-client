@@ -3,7 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { AppState } from '../states/app-state';
 import * as accountActions from 'src/app/store/account/account.actions';
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/app/services/account.service';
-import { AuthData } from 'src/app/models/AuthData';
+import { AuthData } from 'src/app/models/auth-data';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 export const ACCOUNT_REDUCER_NODE = 'account'

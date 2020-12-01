@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PagedResponce } from '../models/common/PagedResponce';
-import { PaginationQuery } from '../models/common/PaginationQuery';
-import { PrintingEditionFilter } from '../models/filters/PrintingEditionFilter';
-import { PrintingEdition } from '../models/PrintingEdition/PrintingEdition';
+import { PagedResponce } from '../models/common/paged-responce';
+import { PaginationQuery } from '../models/common/pagination-query';
+import { PrintingEditionFilter } from '../models/filters/printing-edition.filter';
+import { PrintingEdition } from '../models/printingEdition/printing-edition';
+import { PrintingEditionItem } from '../models/printingEdition/printing-edition-item';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class PrintingEditionService {
   constructor(private http: HttpClient) { }
 
   getPrintingEdition(id: string){
-    return this.http.get(`${this.printingEditionBaseUrl}/getEdition`, {params: {id}})
+    return this.http.get<PrintingEdition>(`${this.printingEditionBaseUrl}/getEdition`, {params: {id}})
   }
 
   getPrintingEditions(paginationQuery: PaginationQuery, filter?: PrintingEditionFilter): Observable<PagedResponce> {
@@ -28,11 +29,11 @@ export class PrintingEditionService {
     return this.http.get<PagedResponce>(`${this.printingEditionBaseUrl}/getEditions`, {params: params})
   }
 
-  addPrintingEdition(printingEdition: PrintingEdition){
+  addPrintingEdition(printingEdition: PrintingEditionItem): Observable<PrintingEdition>{
     return this.http.post<PrintingEdition>(`${this.printingEditionBaseUrl}/createEdition`, printingEdition)
   }
 
-  updatePrintingEdition(printingEdition: PrintingEdition){
+  updatePrintingEdition(printingEdition: PrintingEditionItem): Observable<PrintingEdition>{
     return this.http.post<PrintingEdition>(`${this.printingEditionBaseUrl}/updateEdition`, printingEdition)
   }
 

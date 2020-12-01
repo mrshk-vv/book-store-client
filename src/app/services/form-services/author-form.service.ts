@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Author } from 'src/app/models/author/Author';
-import { AuthorItem } from 'src/app/models/author/AuthorItem';
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { Author } from 'src/app/models/author/author';
+import { AuthorItem } from 'src/app/models/author/author-item';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 
 @Injectable({
   providedIn: 'root'
@@ -28,24 +28,11 @@ export class AuthorFormService {
   }
 
   populateAuthorForm(author: Author){
-    let printingEditions = new Array<PrintingEdition>()
-    for (let i = 0; i < author.authorInPrintingEditions.length; i++) {
-      printingEditions.push({
-        id: author.authorInPrintingEditions[i].printingEditionId,
-        title: author.authorInPrintingEditions[i].printingEdition.title,
-        description: author.authorInPrintingEditions[i].printingEdition.description,
-        editionCurrency: author.authorInPrintingEditions[i].printingEdition.editionCurrency,
-        editionType: author.authorInPrintingEditions[i].printingEdition.editionType,
-        price: author.authorInPrintingEditions[i].printingEdition.price,
-        authorInPrintingEditions: author.authorInPrintingEditions
-      })
-
-    }
     this.authorForm.setValue({
       id: author.id,
       name: author.name,
       isRemoved: author.isRemoved,
-      printingEditions: printingEditions
+      printingEditions: author.authorInPrintingEditions.map(pe => pe.printingEdition.id)
     })
   }
 

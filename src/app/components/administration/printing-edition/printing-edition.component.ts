@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
-import { PrintingEdition } from 'src/app/models/PrintingEdition/PrintingEdition';
+import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 import { deletePrintingEdition, getPrintingEditions } from 'src/app/store/printing-edition/printing-edition.actions';
 import { getPageSizeSelector,
          getPrintingEditionsSelector,
@@ -12,11 +12,10 @@ import { getPageSizeSelector,
          getPreviousPageSelector
       } from 'src/app/store/printing-edition/printing-edition.selector';
 import { PrintingEditionItemComponent } from './printing-edition-item/printing-edition-item.component';
-import { PrintingEditionFormService } from './printing-edition-item/printing-edition-form.service';
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
-import { SpinnerService } from '../../shared/spinner-view/spinner.service';
+import { PrintingEditionFormService } from '../../../services/form-services/printing-edition-form.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { PrintingEditionState } from 'src/app/store/printing-edition/printing-edition.reducer';
 
 
 @Component({
@@ -45,7 +44,7 @@ export class PrintingEditionComponent implements OnInit {
   nextPage: boolean = false
   previousPage: boolean = true
 
-  constructor(private store: Store,
+  constructor(private store: Store<PrintingEditionState>,
               private dialog: MatDialog,
               private peFormService: PrintingEditionFormService,
               ) { }
@@ -136,6 +135,8 @@ export class PrintingEditionComponent implements OnInit {
         this.nextPage = false
       }
     )
+    this.availabilityNextPage()
+    this.availabilityPreviousPage()
   }
 
   availabilityNextPage(): boolean{

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthData } from 'src/app/models/AuthData';
+import { AuthData } from 'src/app/models/auth-data';
 import { ACCESS_TOKEN_KEY } from 'src/app/services/account.service';
 
 @Injectable({
