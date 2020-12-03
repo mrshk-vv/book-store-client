@@ -23,11 +23,11 @@ export class PrintingEditionEffects{
 
   getPrintingEditions$ = createEffect(() => this.actions$.pipe(
     ofType(printingEditionActions.getPrintingEditions),
-    mergeMap(action => this.printingEdition.getPrintingEditions(
+    switchMap(action => this.printingEdition.getPrintingEditions(
       action.paginationQuery,
       action.filter
     ).pipe(
-      map(pagedResponce => printingEditionActions.getPrintingEditionsSuccess(pagedResponce)),
+      map((pagedResponce) => printingEditionActions.getPrintingEditionsSuccess({pagedResponce: pagedResponce})),
       catchError(err => of(printingEditionActions.getPrintingEditionsFailure(err)))
     )
   )))

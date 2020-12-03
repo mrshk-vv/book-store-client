@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'https://localhost:5001',
+  apiBaseUrl: 'http://localhost:58921',
 
-  bookStoreApi: ['https://localhost:5001/api/']
+  bookStoreApi: ['http://localhost:58921/api/']
 };
 
 /*

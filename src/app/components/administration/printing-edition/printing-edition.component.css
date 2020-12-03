@@ -2,11 +2,14 @@
   width: 100%;
 }
 
-div p .add-product{
+.cardPosition{
   position: absolute;
-  left: 95%;
-  color: black;
-  margin-bottom: 3rem;
+  top: 0;
+  z-index: 1;
+}
+
+table{
+  position: relative;
 }
 
 p{
@@ -17,6 +20,15 @@ ul{
 	list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+
+
+div p .add-product{
+  position: absolute;
+  left: 95%;
+  color: black;
+  margin-bottom: 3rem;
 }
 
 .edit-icon{

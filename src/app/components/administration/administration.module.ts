@@ -29,6 +29,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 
@@ -91,7 +94,7 @@ export const routes: Routes = [
     StoreModule.forFeature(AUTHOR_REDUCER_NODE,authorReducer),
     StoreModule.forFeature(PRINTING_EDITION_REDUCER_NODE, printingEditionReducer),
     StoreModule.forFeature(USER_REDUCER_NODE, userReducer),
-    EffectsModule.forFeature([AuthorEffects, PrintingEditionEffects, UserEffects]),
+    EffectsModule.forFeature([UserEffects,PrintingEditionEffects, AuthorEffects]),
     ReactiveFormsModule,
     FormsModule,
 
@@ -106,7 +109,9 @@ export const routes: Routes = [
     MatDialogModule,
     MatToolbarModule,
     MatSortModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule,
+    MatCheckboxModule
   ],
   exports: [
     MatTableModule,
@@ -120,7 +125,9 @@ export const routes: Routes = [
     MatDialogModule,
     MatToolbarModule,
     MatSortModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule,
+    MatCheckboxModule
   ],
   providers: [
     {

@@ -19,7 +19,7 @@ export class UserEffects{
 
   getUsers$ = createEffect(() => this.actions$.pipe(
     ofType(userActions.getUsers),
-    mergeMap(action => this.user.getUsers(
+    switchMap(action => this.user.getUsers(
       action.paginationQuery,
       action.filter
     ).pipe(

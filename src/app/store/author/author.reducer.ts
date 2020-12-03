@@ -82,13 +82,9 @@ export const authorReducer = createReducer(
       selectedAuthor: state.entities[action.id]
     }
   }),
-  on(authorActions.deleteAuthorSuccess, state => {
-    authorAdapter.removeOne(state.selectedAuthor.id, state)
-    return{
-      ...state,
-      selectedAuthor: null
-    }
-  }),
+  on(authorActions.deleteAuthorSuccess, state =>
+  authorAdapter.removeOne(state.selectedAuthor.id, state)
+  ),
   on(authorActions.deleteAuthorFailure, (state, action) => {
     return{
       ...state,

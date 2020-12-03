@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/internal/operators';
 import { environment } from 'src/environments/environment';
 import { PagedResponce } from '../models/common/paged-responce';
 import { PaginationQuery } from '../models/common/pagination-query';
@@ -21,10 +22,24 @@ export class PrintingEditionService {
     return this.http.get<PrintingEdition>(`${this.printingEditionBaseUrl}/getEdition`, {params: {id}})
   }
 
-  getPrintingEditions(paginationQuery: PaginationQuery, filter?: PrintingEditionFilter): Observable<PagedResponce> {
-    const params = new HttpParams()
+  getPrintingEditions(paginationQuery?: PaginationQuery, filter?: PrintingEditionFilter): Observable<PagedResponce> {
+    let params = new HttpParams()
                 .set('pageNumber', paginationQuery.pageNumber.toString())
                 .set('pageSize', paginationQuery.pageSize.toString())
+
+    if(filter === null || filter === undefined){
+      return this.http.get<PagedResponce>(`${this.printingEditionBaseUrl}/getEditions`, {params: params})
+    }
+    if(filter.searchString != null){
+      params = params.append('searchString', filter.searchString)
+    }
+
+    if(filter.types.length != 0){
+      for(let type of filter.types){
+        params = params.append('types', type.toString())
+      }
+      console.log(params.toString())
+    }
 
     return this.http.get<PagedResponce>(`${this.printingEditionBaseUrl}/getEditions`, {params: params})
   }

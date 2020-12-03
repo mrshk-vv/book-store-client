@@ -8,7 +8,21 @@
     </ng-container>
 
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <th mat-header-cell *matHeaderCellDef><div
+        (click)="searchStringVisible = !searchStringVisible"
+        >Title
+      </div>
+      <div [hidden]="!searchStringVisible" class="cardPosition">
+        <mat-card>
+          <input matInput [(ngModel)]="searchString"
+                 placeholder="Input Printing edition title or description"
+                 style="height: 30%;"
+          >
+          <br>
+          <button mat-raised-button color="primary" (click)="applyFilter();searchStringVisible = !searchStringVisible" style="margin-top: 1rem;">Search</button>
+        </mat-card>
+      </div>
+    </th>
       <td mat-cell *matCellDef="let element">{{element.title}}</td>
     </ng-container>
 
@@ -18,7 +32,18 @@
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <th mat-header-cell *matHeaderCellDef >
+        <div (click)="categoryFilterVisible=!categoryFilterVisible">Category</div>
+        <div [hidden]="!categoryFilterVisible" class="cardPosition">
+          <mat-card [formGroup]="categories">
+            <mat-checkbox formControlName="book" (change)="changeCategoryFiltering()">Book</mat-checkbox>
+            <br>
+            <mat-checkbox  formControlName="newspaper"(change)="changeCategoryFiltering()">Newspaper</mat-checkbox>
+            <br>
+            <mat-checkbox formControlName="journal" (change)="changeCategoryFiltering()">Journal</mat-checkbox>
+          </mat-card>
+        </div>
+      </th>
       <td mat-cell *matCellDef="let element">{{element.editionType | edition}}</td>
     </ng-container>
 

@@ -30,12 +30,12 @@ export const printingEditionReducer = createReducer(
   initialPrintingEditionState,
 
   on(printingEditionActions.getPrintingEditionsSuccess, (state, action) =>
-    peAdapter.setAll(action.data, {
+    peAdapter.setAll(action.pagedResponce.data, {
       ...state,
-      pageNumber: action.pageNumber,
-      pageSize: action.pageSize,
-      nextPage: action.nextPage,
-      previousPage: action.previousPage,
+      pageNumber: action.pagedResponce.pageNumber,
+      pageSize: action.pagedResponce.pageSize,
+      previousPage: action.pagedResponce.previousPage,
+      nextPage: action.pagedResponce.nextPage
     })
   ),
   on(printingEditionActions.getPrintingEditionsFailure, (state, action) => {

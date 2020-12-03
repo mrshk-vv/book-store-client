@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/internal/operators';
 import { environment } from 'src/environments/environment';
 import { Author } from '../models/author/author';
 import { AuthorItem } from '../models/author/author-item';

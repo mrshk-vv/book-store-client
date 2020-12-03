@@ -16,6 +16,10 @@ import { PrintingEditionFormService } from '../../../services/form-services/prin
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PrintingEditionState } from 'src/app/store/printing-edition/printing-edition.reducer';
+import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
+import { Edition } from 'src/app/enums/EditionType';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { debounceTime } from 'rxjs/internal/operators';
 
 
 @Component({
@@ -35,21 +39,42 @@ export class PrintingEditionComponent implements OnInit {
 
   displayedColunms: string[] = ['id','title','description','category','authors','price','actions']
 
-  printingEditions: MatTableDataSource<any>
-
   pageSize: number
   pageNumber: number
-
 
   nextPage: boolean = false
   previousPage: boolean = true
 
+  searchStringVisible: boolean = false
+  searchString: string
+
+  categoryFilterVisible: boolean = false
+  types: Array<Edition> = []
+  categories = this.formBuilder.group({
+    book: false,
+    newspaper: false,
+    journal: false
+  })
+
+  filter: PrintingEditionFilter
+
+  printingEditions: MatTableDataSource<any>
+
+
   constructor(private store: Store<PrintingEditionState>,
               private dialog: MatDialog,
               private peFormService: PrintingEditionFormService,
-              ) { }
+              private formBuilder: FormBuilder
+              ) {}
 
   ngOnInit(): void {
+    this.categories.valueChanges.pipe(
+      debounceTime(2000)
+    ).subscribe(
+      () => this.applyFilter()
+    )
+
+
     this.store.pipe(select(getPageSizeSelector)).subscribe(
       data => {
         this.pageSize = data
@@ -60,11 +85,11 @@ export class PrintingEditionComponent implements OnInit {
         this.pageNumber = data
       }
     )
-    this.store.dispatch(getPrintingEditions({paginationQuery: {
-      pageNumber: this.pageNumber,
-      pageSize: this.pageSize
-    },
-    filter: null}))
+    this.store.dispatch(getPrintingEditions({
+      paginationQuery: {
+        pageSize: this.pageSize,
+        pageNumber: this.pageNumber
+      }, filter: null}))
     this.store.pipe(select(getPrintingEditionsSelector)).subscribe(
       data => {
         this.printingEditions = new MatTableDataSource(data)
@@ -92,16 +117,8 @@ export class PrintingEditionComponent implements OnInit {
       this.store.dispatch(getPrintingEditions({paginationQuery: {
         pageNumber: this.pageNumber + 1,
         pageSize: this.pageSize
-      }, filter: null}))
-      this.store.pipe(select(getPrintingEditionsSelector)).subscribe(
-        data => {
-            this.printingEditions = new MatTableDataSource(data)
-            this.printingEditions.sort = this.sort
-            if(data.length < this.pageSize){
-              this.nextPage = true
-            }
-        }
-      )
+      }, filter: this.filter}))
+      this.store.pipe(select(getPrintingEditionsSelector))
     }
   }
 
@@ -110,13 +127,8 @@ export class PrintingEditionComponent implements OnInit {
       this.store.dispatch(getPrintingEditions({paginationQuery: {
         pageNumber: this.pageNumber - 1,
         pageSize: this.pageSize
-      }, filter: null}))
-      this.store.pipe(select(getPrintingEditionsSelector)).subscribe(
-        data => {
-            this.printingEditions = new MatTableDataSource(data)
-            this.printingEditions.sort = this.sort
-        }
-      )
+      }, filter: this.filter}))
+      this.store.pipe(select(getPrintingEditionsSelector))
     }
   }
 
@@ -124,7 +136,7 @@ export class PrintingEditionComponent implements OnInit {
     this.store.dispatch(getPrintingEditions({paginationQuery: {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize
-    }, filter: null}))
+    }, filter: this.filter}))
     this.store.pipe(select(getPrintingEditionsSelector)).subscribe(
       data => {
         this.printingEditions = new MatTableDataSource(data)
@@ -170,5 +182,64 @@ export class PrintingEditionComponent implements OnInit {
     )
     this.nextPage = false
     return true
+  }
+
+  changeCategoryFiltering(){
+    this.bookInFilter()
+    this.journalInFilter()
+    this.newspaperInFilter()
+    setTimeout(() => {
+      this.categoryFilterVisible = false
+      if(this.types === undefined){
+        this.types = []
+      }
+    }, 1000)
+  }
+
+  applyFilter(){
+    this.filter = {
+      searchString: this.searchString,
+      types: this.types
+    }
+
+    this.store.dispatch(getPrintingEditions({
+    paginationQuery:{
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize
+    },
+    filter: this.filter}))
+
+    this.searchString = null
+  }
+
+  newspaperInFilter(){
+    if(this.categories.get('newspaper').value){
+      if(!this.types.includes(Edition.Newspaper)){
+        this.types.push(Edition.Newspaper)
+      }
+    }
+    else{
+      this.types = this.types.filter(i => i != Edition.Newspaper)
+    }
+  }
+  bookInFilter(){
+    if(this.categories.get('book').value){
+      if(!this.types.includes(Edition.Book)){
+        this.types.push(Edition.Book)
+      }
+    }
+    else{
+      this.types = this.types.filter(i => i != Edition.Book)
+    }
+  }
+  journalInFilter(){
+    if(this.categories.get('journal').value){
+      if(!this.types.includes(Edition.Journal)){
+        this.types.push(Edition.Journal)
+      }
+    }
+    else{
+      this.types = this.types.filter(i => i != Edition.Journal)
+    }
   }
 }

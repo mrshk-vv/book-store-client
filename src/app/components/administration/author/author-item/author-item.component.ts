@@ -27,7 +27,7 @@ export class AuthorItemComponent implements OnInit {
       paginationQuery: {
         pageNumber: 0,
         pageSize: 0
-    }}))
+    }, filter: null}))
 
     this.store.pipe(select(getPrintingEditionsSelector)).subscribe(
       data => {

@@ -49,12 +49,12 @@ export const getPrintingEditionFailure = createAction(
 
 export const getPrintingEditions = createAction(
   PrintingEditionActions.GET_PRINTING_EDITIONS,
-  props<{paginationQuery?: PaginationQuery, filter?: PrintingEditionFilter}>()
+  props<{paginationQuery: PaginationQuery, filter?: PrintingEditionFilter}>(),
 )
 
 export const getPrintingEditionsSuccess = createAction(
   PrintingEditionActions.GET_PRINTING_EDITIONS_SUCCESS,
-  props<PagedResponce>(),
+  props<{pagedResponce: PagedResponce}>(),
 )
 
 export const getPrintingEditionsFailure = createAction(

@@ -3,15 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 import { User } from 'src/app/models/user/user';
 import { UserFormService } from 'src/app/services/form-services/user-form.service';
-import { changeUserBlockStatus,
-         deleteUser,
-         getUsers } from 'src/app/store/user/user.actions';
+import * as userActions from 'src/app/store/user/user.actions';
 import { UserState } from 'src/app/store/user/user.reducer';
-import { getPageSizeSelector,
-         getPageNumberSelector,
-         getUsersSelector,
-         getPreviousPageSelector,
-         getNextPageSelector } from 'src/app/store/user/user.selector';
+import * as userSelectors from 'src/app/store/user/user.selector';
 import { UserItemComponent } from './user-item/user-item.component';
 
 @Component({
@@ -36,24 +30,24 @@ export class UserComponent implements OnInit {
               private formService: UserFormService) { }
 
   ngOnInit(): void {
-    this.store.pipe(select(getPageSizeSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getPageSizeSelector)).subscribe(
       pageSize => {
         this.pageSize = pageSize
       }
     )
-    this.store.pipe(select(getPageNumberSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getPageNumberSelector)).subscribe(
       pageNumber => {
         this.pageNumber = pageNumber
       }
     )
-    this.store.dispatch(getUsers({
+    this.store.dispatch(userActions.getUsers({
       paginationQuery: {
         pageNumber: this.pageNumber,
         pageSize: this.pageSize
       },
       filter: null
     }))
-    this.store.pipe(select(getUsersSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
       data => {
         this.users = data
       }
@@ -66,20 +60,20 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(user: User){
-    this.store.dispatch(deleteUser({id: user.id}))
+    this.store.dispatch(userActions.deleteUser({id: user.id}))
   }
 
   changeUserBlockStatus(user: User){
-    this.store.dispatch(changeUserBlockStatus({id: user.id}))
+    this.store.dispatch(userActions.changeUserBlockStatus({id: user.id}))
   }
 
   openNextPage(){
     if(this.availabilityNextPage()){
-      this.store.dispatch(getUsers({paginationQuery: {
+      this.store.dispatch(userActions.getUsers({paginationQuery: {
         pageNumber: this.pageNumber + 1,
         pageSize: this.pageSize
       }, filter: null}))
-      this.store.pipe(select(getUsersSelector)).subscribe(
+      this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
         data => {
             this.users = data
             if(data.length < this.pageSize){
@@ -92,11 +86,11 @@ export class UserComponent implements OnInit {
 
   openPreviousPage(){
     if(this.availabilityPreviousPage()){
-      this.store.dispatch(getUsers({paginationQuery: {
+      this.store.dispatch(userActions.getUsers({paginationQuery: {
         pageNumber: this.pageNumber - 1,
         pageSize: this.pageSize
       }, filter: null}))
-      this.store.pipe(select(getUsersSelector)).subscribe(
+      this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
         data => {
           this.users = data
         }
@@ -105,11 +99,11 @@ export class UserComponent implements OnInit {
   }
 
   changeTableSize(){
-    this.store.dispatch(getUsers({paginationQuery: {
+    this.store.dispatch(userActions.getUsers({paginationQuery: {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize
     }, filter: null}))
-    this.store.pipe(select(getUsersSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
       data => {
         this.users = data
         if(data.length <= this.pageSize){
@@ -123,7 +117,7 @@ export class UserComponent implements OnInit {
   }
 
   availabilityNextPage(): boolean{
-    this.store.pipe(select(getNextPageSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getNextPageSelector)).subscribe(
       data => {
         if(data === null){
           this.nextPage = true
@@ -139,7 +133,7 @@ export class UserComponent implements OnInit {
   }
 
   availabilityPreviousPage(): boolean{
-    this.store.pipe(select(getPreviousPageSelector)).subscribe(
+    this.store.pipe(select(userSelectors.getPreviousPageSelector)).subscribe(
       data => {
         if(data === null){
           this.previousPage = true
