@@ -17,7 +17,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PrintingEditionState } from 'src/app/store/printing-edition/printing-edition.reducer';
 import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
-import { Edition } from 'src/app/enums/EditionType';
+import { Edition } from 'src/app/enums/edition-type';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/internal/operators';
 
@@ -208,7 +208,7 @@ export class PrintingEditionComponent implements OnInit {
         pageSize: this.pageSize
     },
     filter: this.filter}))
-
+    this.searchStringVisible = false
     this.searchString = null
   }
 

@@ -24,9 +24,16 @@ constructor(private http: HttpClient) { }
   }
 
   public getAuthors(paginationQuery?: PaginationQuery, filter?: AuthorFilter): Observable<PagedResponce>{
-    const params = new HttpParams()
+    let params = new HttpParams()
                   .set('pageNumber', paginationQuery.pageNumber.toString())
                   .set('pageSize', paginationQuery.pageSize.toString())
+
+    if(filter != null || filter != undefined){
+      if(filter.name != null){
+        params = params.append('name', filter.name)
+      }
+    }
+
     return this.http.get<PagedResponce>(`${this.authorBaseUrl}/getAuthors`, {params: params})
   }
 

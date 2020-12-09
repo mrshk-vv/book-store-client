@@ -14,6 +14,7 @@ import { AuthorItemComponent } from './author-item/author-item.component';
 import { getPageNumberSelector } from 'src/app/store/author/author.selector';
 import { AuthorFormService } from '../../../services/form-services/author-form.service';
 import { AuthorState } from 'src/app/store/author/author.reducer';
+import { AuthorFilter } from 'src/app/models/filters/author.filter';
 
 
 
@@ -30,6 +31,11 @@ export class AuthorComponent implements OnInit {
 
   pageNumber: number
   pageSize: number
+
+  searchStringVisible: boolean
+  searchString: string
+
+  filter: AuthorFilter
 
   nextPage: boolean = false
   previousPage: boolean = true
@@ -155,5 +161,20 @@ export class AuthorComponent implements OnInit {
     )
     this.nextPage = false
     return true
+  }
+
+  applyFilter(){
+    this.filter = {
+      name: this.searchString
+    }
+    this.store.dispatch(getAuthors({
+      paginationQuery: {
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize
+      },
+      filter: this.filter
+  }))
+  this.searchStringVisible = false
+  this.searchString = null
   }
 }

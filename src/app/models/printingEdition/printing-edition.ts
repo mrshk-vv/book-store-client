@@ -1,5 +1,5 @@
-import { Currency } from '../../enums/CurrencyType'
-import { Edition } from '../../enums/EditionType'
+import { Currency } from '../../enums/currency-type'
+import { Edition } from '../../enums/edition-type'
 import { AuthorInPrintingEdition } from '../author/author-In-printing-edition'
 
 export class PrintingEdition{

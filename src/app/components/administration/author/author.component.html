@@ -7,12 +7,23 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef><div
+          (click)="searchStringVisible = !searchStringVisible">
+          Name
+        </div>
+        <div [hidden]="!searchStringVisible" class="card-position">
+          <mat-card>
+            <input matInput [(ngModel)]="searchString" placeholder="Input author name">
+            <br>
+            <button mat-raised-button color="primary" (click)="applyFilter()" class="search-btn" >Search</button>
+          </mat-card>
+        </div>
+      </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="products">
-      <th mat-header-cell *matHeaderCellDef> Products </th>
+      <th mat-header-cell *matHeaderCellDef>Products</th>
       <td mat-cell *matCellDef="let element">
         <ul>
           <li *ngFor="let element of element.authorInPrintingEditions">

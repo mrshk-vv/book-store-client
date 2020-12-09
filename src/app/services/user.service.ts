@@ -22,9 +22,19 @@ export class UserService {
   }
 
   getUsers(paginationQuery: PaginationQuery, filter: UserFilter): Observable<PagedResponce>{
-    const params = new HttpParams()
+    let params = new HttpParams()
                   .set('pageNumber', paginationQuery.pageNumber.toString())
                   .set('pageSize', paginationQuery.pageSize.toString())
+
+    if(filter != null){
+      if(filter.name != null){
+        params = params.append('name', filter.name)
+      }
+      if(filter.status != null){
+        params = params.append('status', filter.status.toString())
+      }
+    }
+
     return this.http.get<PagedResponce>(`${this.userBaseUrl}/getUsers`, {params: params})
   }
 

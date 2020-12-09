@@ -22,6 +22,9 @@ import { PrintingEditionModule } from './components/printingEdition/printing-edi
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { SharedModule } from './components/shared/shared.module';
 import { reducers,metaReducers } from './store/states/app-state';
+import { PipesModule } from './shared/pipes/pipes.module';
+import { OrderComponent } from './components/order/order.component';
+import { CheckoutComponent } from './components/order/checkout/checkout.component';
 
 
 
@@ -35,6 +38,8 @@ export function tokenGetter(){
     FooterComponent,
     HeaderComponent,
     HomeComponent,
+    OrderComponent,
+    CheckoutComponent,
   ],
   imports: [
     StoreModule.forRoot(reducers, {

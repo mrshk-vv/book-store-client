@@ -27,18 +27,27 @@ export class PrintingEditionService {
                 .set('pageNumber', paginationQuery.pageNumber.toString())
                 .set('pageSize', paginationQuery.pageSize.toString())
 
-    if(filter === null || filter === undefined){
-      return this.http.get<PagedResponce>(`${this.printingEditionBaseUrl}/getEditions`, {params: params})
-    }
-    if(filter.searchString != null){
-      params = params.append('searchString', filter.searchString)
-    }
-
-    if(filter.types.length != 0){
-      for(let type of filter.types){
-        params = params.append('types', type.toString())
+    if(filter != null || filter != undefined){
+      if(filter.searchString != null){
+        params = params.append('searchString', filter.searchString)
       }
-      console.log(params.toString())
+      if(filter.types != null){
+        for(let type of filter.types){
+          params = params.append('types', type.toString())
+        }
+      }
+      if(filter.maxPrice != null){
+        params = params.append('maxPrice', filter.maxPrice.toString())
+      }
+      if(filter.minPrice != null){
+        params = params.append('minPrice', filter.minPrice.toString())
+      }
+      if(filter.currency != null){
+        params = params.append('currency', filter.currency.toString())
+      }
+      if(filter.sort != null){
+        params = params.append('sort', filter.sort.toString())
+      }
     }
 
     return this.http.get<PagedResponce>(`${this.printingEditionBaseUrl}/getEditions`, {params: params})

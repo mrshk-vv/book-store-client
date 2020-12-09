@@ -12,14 +12,13 @@
         (click)="searchStringVisible = !searchStringVisible"
         >Title
       </div>
-      <div [hidden]="!searchStringVisible" class="cardPosition">
+      <div [hidden]="!searchStringVisible" class="card-position">
         <mat-card>
           <input matInput [(ngModel)]="searchString"
                  placeholder="Input Printing edition title or description"
-                 style="height: 30%;"
           >
           <br>
-          <button mat-raised-button color="primary" (click)="applyFilter();searchStringVisible = !searchStringVisible" style="margin-top: 1rem;">Search</button>
+          <button class="search-btn" mat-raised-button color="primary" (click)="applyFilter()" >Search</button>
         </mat-card>
       </div>
     </th>
@@ -34,7 +33,7 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef >
         <div (click)="categoryFilterVisible=!categoryFilterVisible">Category</div>
-        <div [hidden]="!categoryFilterVisible" class="cardPosition">
+        <div [hidden]="!categoryFilterVisible" class="card-position">
           <mat-card [formGroup]="categories">
             <mat-checkbox formControlName="book" (change)="changeCategoryFiltering()">Book</mat-checkbox>
             <br>

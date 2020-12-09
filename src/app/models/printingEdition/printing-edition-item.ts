@@ -1,5 +1,5 @@
-import { Currency } from 'src/app/enums/CurrencyType'
-import { Edition } from 'src/app/enums/EditionType'
+import { Currency } from 'src/app/enums/currency-type'
+import { Edition } from 'src/app/enums/edition-type'
 import { Author } from '../author/author'
 
 export class PrintingEditionItem{

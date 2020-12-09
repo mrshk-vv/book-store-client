@@ -1,4 +1,4 @@
 export interface UserFilter{
-  email: string,
-  status: boolean
+  name?: string,
+  status?: boolean
 }

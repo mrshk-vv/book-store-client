@@ -32,13 +32,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-
-
-
 import { AuthorItemComponent } from './author/author-item/author-item.component';
 import { PrintingEditionItemComponent } from './printing-edition/printing-edition-item/printing-edition-item.component';
-
-import { EnumsToArrayPipe } from 'src/app/shared/pipes/enums-to-array.pipe';
 
 import {RoleGuardService as RoleGuard, ROLE_GUARD}  from 'src/app/shared/auth/role-guard.service';
 import { MatSortModule } from '@angular/material/sort';
@@ -46,6 +41,7 @@ import { UserComponent } from './user/user.component';
 import { UserItemComponent } from './user/user-item/user-item.component';
 import { userReducer, USER_REDUCER_NODE } from 'src/app/store/user/user.reducer';
 import { UserEffects } from 'src/app/store/user/user.effects';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 
 export const routes: Routes = [
   {
@@ -84,9 +80,6 @@ export const routes: Routes = [
     UserComponent,
     UserItemComponent,
 
-    CurrencyPipe,
-    EditionPipe,
-    EnumsToArrayPipe,
   ],
   imports: [
     CommonModule,
@@ -97,6 +90,8 @@ export const routes: Routes = [
     EffectsModule.forFeature([UserEffects,PrintingEditionEffects, AuthorEffects]),
     ReactiveFormsModule,
     FormsModule,
+
+    PipesModule.forRoot(),
 
     MatTableModule,
     MatIconModule,
@@ -127,7 +122,7 @@ export const routes: Routes = [
     MatSortModule,
     MatSlideToggleModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   providers: [
     {

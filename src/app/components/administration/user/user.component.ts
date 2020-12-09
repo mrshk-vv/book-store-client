@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
+import { debounceTime } from 'rxjs/internal/operators';
+import { UserFilter } from 'src/app/models/filters/user.filter';
 import { User } from 'src/app/models/user/user';
 import { UserFormService } from 'src/app/services/form-services/user-form.service';
 import * as userActions from 'src/app/store/user/user.actions';
@@ -23,11 +26,20 @@ export class UserComponent implements OnInit {
   nextPage: boolean = false
   previousPage: boolean = true
 
+  filter: UserFilter
+
+  userName: string
+  userNameSearchVisible: boolean
+
+  status: boolean = false
+  statusSelectVisible: boolean
+
   displayedColumns: string[] = ['userName', 'email', 'status', 'actions']
 
   constructor(private store: Store<UserState>,
               private dialog: MatDialog,
-              private formService: UserFormService) { }
+              private formService: UserFormService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.store.pipe(select(userSelectors.getPageSizeSelector)).subscribe(
@@ -72,7 +84,7 @@ export class UserComponent implements OnInit {
       this.store.dispatch(userActions.getUsers({paginationQuery: {
         pageNumber: this.pageNumber + 1,
         pageSize: this.pageSize
-      }, filter: null}))
+      }, filter: this.filter}))
       this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
         data => {
             this.users = data
@@ -89,7 +101,7 @@ export class UserComponent implements OnInit {
       this.store.dispatch(userActions.getUsers({paginationQuery: {
         pageNumber: this.pageNumber - 1,
         pageSize: this.pageSize
-      }, filter: null}))
+      }, filter: this.filter}))
       this.store.pipe(select(userSelectors.getUsersSelector)).subscribe(
         data => {
           this.users = data
@@ -146,6 +158,30 @@ export class UserComponent implements OnInit {
     )
     this.nextPage = false
     return true
+  }
+
+  changeStatus(){
+    setTimeout(() => {
+      this.statusSelectVisible = false
+      if(status != null){
+        this.applyFilter()
+      }
+    }, 2000)
+  }
+
+  applyFilter(){
+    this.filter = {
+      name: this.userName,
+      status: this.status
+    }
+    this.store.dispatch(userActions.getUsers({
+      paginationQuery: {
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize
+      },
+      filter: this.filter
+    }))
+    this.userNameSearchVisible = false
   }
 
 }

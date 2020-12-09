@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import {MatMenuModule} from '@angular/material/menu';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 
 
 
@@ -16,9 +17,10 @@ import {MatMenuModule} from '@angular/material/menu';
   ],
   imports: [
     CommonModule,
+    PipesModule.forRoot(),
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   exports: [
     MatDialogModule,

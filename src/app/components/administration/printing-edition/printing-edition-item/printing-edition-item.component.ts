@@ -2,8 +2,8 @@ import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
 
-import { Currency } from 'src/app/enums/CurrencyType';
-import { Edition } from 'src/app/enums/EditionType';
+import { Currency } from 'src/app/enums/currency-type';
+import { Edition } from 'src/app/enums/edition-type';
 import { Author } from 'src/app/models/author/author';
 
 import { getAuthors } from 'src/app/store/author/author.actions';

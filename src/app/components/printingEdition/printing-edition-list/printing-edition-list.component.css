@@ -1,0 +1,55 @@
+.price-range {
+  margin-left: 5%;
+  margin-top: 30px;
+}
+
+
+.price-range-input{
+  width: 50px !important;
+  margin-right: 12%;
+}
+
+.filtering-block{
+  width: 15%;
+}
+
+img{
+  width: 150px;
+  height: 150px;
+}
+
+mat-card{
+  margin-top: 1%;
+  width: 100%;
+  height: 100%;
+}
+
+.search{
+  vertical-align: middle;
+  padding-left: 60%;
+}
+
+.search-input{
+  width: 350px;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: black !important;
+ }
+
+ ::ng-deep.mat-form-field-underline {
+  background-color: gray !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+ background-color: black !important;;
+}
+
+::ng-deep.mat-raised-button {
+  background-color: black !important;
+  color: white;
+  width: 75%;
+ }
+
+
+

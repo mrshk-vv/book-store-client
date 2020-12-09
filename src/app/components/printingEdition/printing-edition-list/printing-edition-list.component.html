@@ -1,1 +1,91 @@
-<p>printing-edition-list works!</p>
+<div class="row ml-1 main-page">
+  <h2 style="margin-top: 0.5rem;">Catalog</h2>
+  <div class="search" [formGroup]="searchBlock">
+    <mat-form-field class="search-input">
+      <input matInput formControlName="searchString" placeholder="Search book by title or description">
+    </mat-form-field>
+    <button mat-icon-button (click)="applyFilter()"><mat-icon>search</mat-icon></button>
+    <br>
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Currency</mat-label>
+        <mat-select formControlName="currency">
+          <mat-option [value]=null>None</mat-option>
+          <mat-option *ngFor="let selectedCurrency of keysCurrency" [value]="selectedCurrency">
+            {{currency[selectedCurrency]}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field style="margin-left: 30px;">
+        <mat-label>Sort by</mat-label>
+        <mat-select formControlName="sort">
+          <mat-option [value]=null >None</mat-option>
+          <mat-option [value]=false >Price: Low to High</mat-option>
+          <mat-option [value]=true >Price: High to Low</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="left-sidebar filtering-block ml-4">
+    <div class="panel-group" >
+      <div [formGroup]="categories">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <mat-checkbox formControlName="book"><b>Books</b></mat-checkbox>
+            </h4>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <mat-checkbox formControlName="journal"><b>Journals</b></mat-checkbox>
+            </h4>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <mat-checkbox formControlName="newspaper"><b>Newspapers</b></mat-checkbox>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <hr>
+    <div class="price-range" [formGroup]="priceRange">
+      <h2>Price</h2>
+
+        <mat-form-field class="price-range-input">
+          <mat-label >min</mat-label>
+          <input matInput formControlName="min" type="number" min="0" max="10242" сlass="price-range-input" value=0>
+        </mat-form-field>
+
+        <mat-form-field class="price-range-input">
+          <mat-label >max</mat-label>
+          <input matInput formControlName="max" type="number" min="0" max="10242" сlass="price-range-input">
+        </mat-form-field>
+    </div>
+    <button mat-raised-button (click)="applyFilter()">Apply</button>
+  </div>
+  </div>
+  <div class="container">
+    <div class="row">
+        <mat-card class="col col-lg-4" *ngFor="let printingEdition of printingEditions"
+        (click)="printingEditionDetail(printingEdition.id)"
+        >
+          <img src="assets/images/default.png">
+          <p><b>{{printingEdition.title}}</b></p>
+          <p>{{printingEdition.price}} {{printingEdition.editionCurrency | cur}}</p>
+        </mat-card>
+      </div>
+    </div>
+    <div class="pagination">
+      <button mat-raised-button (click)="openPreviousPage()" [disabled]="[previousPage]">Previous page</button>
+      <button mat-raised-button (click)="openNextPage()" [disabled]="[nextPage]">Next page</button>
+    </div>
+  </div>
+
+
