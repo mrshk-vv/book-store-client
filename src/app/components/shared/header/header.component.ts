@@ -11,24 +11,35 @@ import { CheckoutComponent } from '../../order/checkout/checkout.component';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent implements OnInit {
 
-  authStatus$ = this.store.pipe(select(getAuthStatus))
-  role: string
+  authStatus: boolean
+  isAdmin: boolean
 
-  constructor(private store: Store,
+  constructor(private store: Store<AccountState>,
               private router: Router,
               private dialog: MatDialog) {
-    store.pipe(select(getRoleSelector)).subscribe(
-      data => {
-        this.role = data
-      }
-    )
-    console.log(this.role)
+
   }
 
   ngOnInit(): void {
+    this.store.select(getRoleSelector).subscribe(
+      (data) => {
+        if(data == 'Admin'){
+          this.isAdmin = true
+        }
+        if(data == 'Client'){
+          this.isAdmin = false
+        }
+        console.log(data)
+      })
+    this.store.select(getAuthStatus).subscribe(
+      (status) =>{
+        this.authStatus = status
+      }
+    )
   }
 
   openShopCart(){

@@ -3,7 +3,7 @@ export class AuthData{
   email: string
   firstName: string
   lastName: string
-  role: string
+  role: string = 'none'
   nbf: number
   exp: number
   iss: string

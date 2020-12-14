@@ -4,10 +4,14 @@ a{
 }
 
 .menu-button{
-  width: 250px;
+  outline: 0;
   height: auto;
 }
+
+.menu-button:focus{
+  outline: 0;
+}
 .mat-menu-button{
-  width: 500px;
+  overflow:hidden !important;
   margin-right: 50px;
 }

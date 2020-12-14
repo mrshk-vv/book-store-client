@@ -1,6 +1,7 @@
 <div class="signin-form">
   <h2>Sing In</h2>
   <form [formGroup]="signInForm" (submit)="signIn()">
+      <p *ngIf="message != null || message != undefined" style="color: red;">{{message}}</p>
       <div class="form-group">
           <input type="text" class="form-control" formControlName="email" placeholder="Your Email *"/>
           <span class="error-block" *ngIf="!email.valid && (email.touched || formSubmited)">

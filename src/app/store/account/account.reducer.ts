@@ -25,7 +25,7 @@ export interface AccountState extends AppState{
   isEmailConfirmed: boolean
   isPasswordReset: boolean
   authData: AuthData
-  errorMessage: string
+  errorMessage: any
 }
 
 export const initialAccountState: AccountState = {

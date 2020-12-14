@@ -16,10 +16,10 @@ import { PrintingEditionFormService } from '../../../services/form-services/prin
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PrintingEditionState } from 'src/app/store/printing-edition/printing-edition.reducer';
-import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
 import { Edition } from 'src/app/enums/edition-type';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/internal/operators';
+import { PrintingEditionFilter } from 'src/app/shared/filters/printing-edition.filter';
 
 
 @Component({

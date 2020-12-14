@@ -5,9 +5,10 @@ import { map, tap } from 'rxjs/internal/operators';
 import { environment } from 'src/environments/environment';
 import { PagedResponce } from '../models/common/paged-responce';
 import { PaginationQuery } from '../models/common/pagination-query';
-import { PrintingEditionFilter } from '../models/filters/printing-edition.filter';
+
 import { PrintingEdition } from '../models/printingEdition/printing-edition';
 import { PrintingEditionItem } from '../models/printingEdition/printing-edition-item';
+import { PrintingEditionFilter } from '../shared/filters/printing-edition.filter';
 
 @Injectable({
   providedIn: 'root'

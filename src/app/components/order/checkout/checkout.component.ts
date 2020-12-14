@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { OrderItem } from 'src/app/models/order/order-item';
 import { CartService } from 'src/app/services/cart.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -13,14 +15,14 @@ export class CheckoutComponent implements OnInit {
   cartItems: Array<OrderItem> = []
 
   cartCheck: boolean = false
+  totalAmount: number
 
-  constructor(private cart: CartService) {
+  constructor(private cart: CartService,
+              private order: OrderService,
+              private dialog: MatDialogRef<CheckoutComponent>) {
     cart.cartItems.subscribe(
       cartItems => {
-        this.cartItems = cartItems
-        if(this.cartItems === null || this.cartItems === []){
-          this.cartCheck = true
-        }
+        this.cartItems = cartItems;
       }
     )
   }
@@ -37,4 +39,11 @@ export class CheckoutComponent implements OnInit {
     this.cart.deleteProduct(orderItem)
   }
 
+  buy(){
+    this.order.createOrder(this.cart.getCart)
+  }
+
+  close(){
+    this.dialog.close()
+  }
 }

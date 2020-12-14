@@ -81,7 +81,6 @@ export class CartService {
     if(orderItemIndex != -1){
       this.orderItems.splice(orderItemIndex, 1)
     }
-    console.log(this.orderItems)
     this.setCart = this.orderItems
   }
 }

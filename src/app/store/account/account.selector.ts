@@ -26,7 +26,7 @@ export const getConfrimEmailStatus = createSelector(
 
 export const getAuthMessage = createSelector(
   getAccountFeature,
-  state => state.errorMessage
+  state => state.errorMessage.error
 )
 
 export const getAuthData = createSelector(

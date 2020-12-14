@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Currency } from 'src/app/enums/currency-type';
 import { Edition } from 'src/app/enums/edition-type';
-import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
+
 import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 import { getPrintingEditions } from 'src/app/store/printing-edition/printing-edition.actions';
 import { PrintingEditionState } from 'src/app/store/printing-edition/printing-edition.reducer';
 import * as selectors from 'src/app/store/printing-edition/printing-edition.selector'
 import * as alertify from 'alertifyjs'
+import { PrintingEditionFilter } from 'src/app/shared/filters/printing-edition.filter';
 
 @Component({
   selector: 'app-printing-edition-list',

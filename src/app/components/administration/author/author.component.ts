@@ -14,7 +14,7 @@ import { AuthorItemComponent } from './author-item/author-item.component';
 import { getPageNumberSelector } from 'src/app/store/author/author.selector';
 import { AuthorFormService } from '../../../services/form-services/author-form.service';
 import { AuthorState } from 'src/app/store/author/author.reducer';
-import { AuthorFilter } from 'src/app/models/filters/author.filter';
+import { AuthorFilter } from 'src/app/shared/filters/author.filter';
 
 
 

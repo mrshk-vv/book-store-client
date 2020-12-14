@@ -8,7 +8,8 @@ import { Author } from '../models/author/author';
 import { AuthorItem } from '../models/author/author-item';
 import { PagedResponce } from '../models/common/paged-responce';
 import { PaginationQuery } from '../models/common/pagination-query';
-import { AuthorFilter } from '../models/filters/author.filter';
+import { AuthorFilter } from '../shared/filters/author.filter';
+
 
 @Injectable({
   providedIn: 'root'

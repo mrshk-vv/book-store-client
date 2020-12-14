@@ -18,7 +18,7 @@ export class SpinnerService {
       return dialogRef;
     };
 
-  stop(ref:MatDialogRef<SpinnerComponent>){
+  stop(ref: MatDialogRef<SpinnerComponent>){
       ref.close();
   }
 }

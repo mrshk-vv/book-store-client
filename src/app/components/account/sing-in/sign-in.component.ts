@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as accountActions from 'src/app/store/account/account.actions';
+import { getAuthMessage } from 'src/app/store/account/account.selector';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,10 +15,12 @@ export class SignInComponent implements OnInit {
 
   signInForm: FormGroup
   formSubmited: boolean
+  message: string
+
   constructor(public store: Store,
               private formBuilder: FormBuilder,
               private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.createSignInForm();
@@ -37,6 +40,12 @@ export class SignInComponent implements OnInit {
         email: this.email.value,
         password: this.password.value
       }))
+      this.store.select(getAuthMessage).subscribe(
+        errorMessage => {
+          this.message = errorMessage
+          console.log(errorMessage)
+        }
+      )
     }
   }
 

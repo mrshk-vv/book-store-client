@@ -4,9 +4,10 @@ import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 import { PagedResponce } from '../models/common/paged-responce';
 import { PaginationQuery } from '../models/common/pagination-query';
-import { UserFilter } from '../models/filters/user.filter';
+
 import { User } from '../models/user/user';
 import { UserSignUp } from '../models/user/user-sign-up';
+import { UserFilter } from '../shared/filters/user.filter';
 
 @Injectable({
   providedIn: 'root'

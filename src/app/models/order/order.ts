@@ -1,5 +1,6 @@
 import { Status } from 'src/app/enums/status-type';
 import { User } from '../user/user';
+import { OrderItem } from './order-item';
 import { Payment } from './payment';
 
 export interface Order{
@@ -10,4 +11,6 @@ export interface Order{
   paymentId: number
   payment: Payment
   status: Status
+  totalAmount: number
+  orderItems: OrderItem[]
 }

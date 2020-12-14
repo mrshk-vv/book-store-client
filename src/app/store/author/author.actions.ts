@@ -4,7 +4,8 @@ import { Author } from 'src/app/models/author/author';
 import { AuthorItem } from 'src/app/models/author/author-item';
 import { PagedResponce } from 'src/app/models/common/paged-responce';
 import { PaginationQuery } from 'src/app/models/common/pagination-query';
-import { AuthorFilter } from 'src/app/models/filters/author.filter';
+import { AuthorFilter } from 'src/app/shared/filters/author.filter';
+
 
 export enum AuthorActions {
   GET_AUTHOR = '[Author] Get Author',

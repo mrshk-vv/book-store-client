@@ -2,9 +2,10 @@ import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { PagedResponce } from 'src/app/models/common/paged-responce';
 import { PaginationQuery } from 'src/app/models/common/pagination-query';
-import { UserFilter } from 'src/app/models/filters/user.filter';
+
 import { User } from 'src/app/models/user/user';
 import { UserSignUp } from 'src/app/models/user/user-sign-up';
+import { UserFilter } from 'src/app/shared/filters/user.filter';
 
 export enum UserActions{
   GET_USER = "[User] Get User",

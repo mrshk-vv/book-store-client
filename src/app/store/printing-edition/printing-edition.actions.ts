@@ -2,9 +2,10 @@ import { Update } from '@ngrx/entity/src';
 import { createAction, props } from '@ngrx/store';
 import { PagedResponce } from 'src/app/models/common/paged-responce';
 import { PaginationQuery } from 'src/app/models/common/pagination-query';
-import { PrintingEditionFilter } from 'src/app/models/filters/printing-edition.filter';
+
 import { PrintingEdition } from 'src/app/models/printingEdition/printing-edition';
 import { PrintingEditionItem } from 'src/app/models/printingEdition/printing-edition-item';
+import { PrintingEditionFilter } from 'src/app/shared/filters/printing-edition.filter';
 
 export enum PrintingEditionActions{
   GET_PRINTING_EDITION = '[Printing Edition] Get Printing Edition',

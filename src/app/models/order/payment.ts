@@ -1,4 +1,6 @@
+import { Order } from './order';
+
 export interface Payment{
-  id: number
-  transactionId: string
+  order: Order,
+  token: string
 }

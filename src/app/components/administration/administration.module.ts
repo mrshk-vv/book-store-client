@@ -42,6 +42,9 @@ import { UserItemComponent } from './user/user-item/user-item.component';
 import { userReducer, USER_REDUCER_NODE } from 'src/app/store/user/user.reducer';
 import { UserEffects } from 'src/app/store/user/user.effects';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { OrderComponent } from './order/order.component';
+import { orderReducer, ORDER_REDUCER_NODE } from 'src/app/store/order/order.reducer';
+import { OrderEffects } from 'src/app/store/order/order.effects';
 
 export const routes: Routes = [
   {
@@ -67,7 +70,16 @@ export const routes: Routes = [
     data: {
       expectedRole: 'Admin'
     }
-  }
+  },
+  {
+    path: 'administration/orders',
+    component: OrderComponent,
+    canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'Admin'
+    }
+  },
+
 ]
 
 
@@ -79,6 +91,7 @@ export const routes: Routes = [
     AuthorItemComponent,
     UserComponent,
     UserItemComponent,
+    OrderComponent,
 
   ],
   imports: [
@@ -87,7 +100,8 @@ export const routes: Routes = [
     StoreModule.forFeature(AUTHOR_REDUCER_NODE,authorReducer),
     StoreModule.forFeature(PRINTING_EDITION_REDUCER_NODE, printingEditionReducer),
     StoreModule.forFeature(USER_REDUCER_NODE, userReducer),
-    EffectsModule.forFeature([UserEffects,PrintingEditionEffects, AuthorEffects]),
+    StoreModule.forFeature(ORDER_REDUCER_NODE, orderReducer),
+    EffectsModule.forFeature([UserEffects,PrintingEditionEffects, AuthorEffects, OrderEffects]),
     ReactiveFormsModule,
     FormsModule,
 
