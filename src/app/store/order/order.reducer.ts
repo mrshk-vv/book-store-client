@@ -5,8 +5,11 @@ import { AppState } from '../states/app-state';
 
 import * as orderActions from 'src/app/store/order/order.actions'
 import { Order } from 'src/app/models/order/order';
+import { authData } from '../account/account.reducer';
 
 export const ORDER_REDUCER_NODE = 'order'
+
+const clientId = authData.id
 
 export interface OrderState extends AppState,EntityState<Order>{
   clientOrders: Order[]
@@ -58,6 +61,20 @@ export const orderReducer = createReducer(
     }
   }),
   on(orderActions.getOrdersFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
+
+  on(orderActions.createOrderSuccess, (state,action) => {
+    localStorage.removeItem(clientId)
+    return{
+      ...state,
+      selectedOrder: action.order
+    }
+  }),
+  on(orderActions.createOrderFailure, (state,action) => {
     return{
       ...state,
       error: action.error

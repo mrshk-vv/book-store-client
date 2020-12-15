@@ -8,7 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 export const ACCOUNT_REDUCER_NODE = 'account'
 
-const authData: AuthData = new JwtHelperService().decodeToken(localStorage.getItem(ACCESS_TOKEN_KEY))
+export let authData: AuthData = new JwtHelperService().decodeToken(localStorage.getItem(ACCESS_TOKEN_KEY))
 
 function loggedInState(){
   if(new JwtHelperService().isTokenExpired(localStorage.getItem(ACCESS_TOKEN_KEY))){

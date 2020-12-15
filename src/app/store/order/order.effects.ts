@@ -5,6 +5,7 @@ import { Store } from "@ngrx/store";
 import { config, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/internal/operators';
 import { OrderComponent } from 'src/app/components/administration/order/order.component';
+import { CheckoutComponent } from "src/app/components/order/checkout/checkout.component";
 import { PaymentComponent } from 'src/app/components/order/payment/payment.component';
 import { OrderService } from 'src/app/services/order.service';
 
@@ -44,6 +45,14 @@ export class OrderEffects{
     )
   )))
 
+  createOrder$ = createEffect(() => this.$actions.pipe(
+    ofType(orderActions.createOrder),
+    switchMap(action => this.order.createOrder(action.cart).pipe(
+      map(order => orderActions.createOrderSuccess({order: order})),
+      catchError(err => of(orderActions.createOrderFailure({error: err})))
+    )
+  )))
+
   startPayOrder$ = createEffect(() => this.$actions.pipe(
     ofType(orderActions.getOrderSuccess),
     tap(() => this.dialog.open(PaymentComponent, {width: "30%"}))
@@ -67,5 +76,6 @@ export class OrderEffects{
   constructor(private $actions: Actions,
               private order: OrderService,
               private dialog: MatDialog,
-              private store: Store<OrderState>) {}
+              private store: Store<OrderState>,
+              ) {}
 }

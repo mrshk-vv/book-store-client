@@ -45,13 +45,8 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.apiBaseUrl}/getClientOrders`)
   }
 
-  public createOrder(orderItems: Array<OrderItem>){
-    return this.http.post<number>(`${this.apiBaseUrl}/createOrder`, orderItems).subscribe(
-      orderId => {
-        localStorage.setItem('orderId', orderId.toString())
-        localStorage.removeItem(`${this.cart.clientId}`)
-      }
-    )
+  public createOrder(orderItems: Array<OrderItem>): Observable<Order>{
+    return this.http.post<Order>(`${this.apiBaseUrl}/createOrder`, orderItems)
   }
 
   public payOrder(order: Order, token: string){
