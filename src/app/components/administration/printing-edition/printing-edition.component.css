@@ -16,6 +16,16 @@ ul{
   padding: 0;
 }
 
+.search-btn{
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+
+.search-card{
+  width: 250px;
+}
 
 
 div p .add-product{

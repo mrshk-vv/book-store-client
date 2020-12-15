@@ -17,7 +17,7 @@ export class AccountEffects{
       email: action.email,
       password: action.password
     }).pipe(
-      map((authData: AuthData) => accountActions.signInSuccess(authData)),
+      map((authData: AuthData) => accountActions.signInSuccess({authData: authData})),
       catchError(err => of(accountActions.signInFailure({errorMessage: err})))
     ))
   ));
@@ -61,12 +61,12 @@ export class AccountEffects{
 
   refreshTokensThroughTime$ = createEffect(() => this.actions$.pipe(
     ofType(accountActions.signInSuccess),
-    delayWhen(action => timer(action.exp * 1000 - 60 * 1000 - Date.now())),
+    delayWhen(action => timer(action.authData.exp * 1000 - 60 * 1000 - Date.now())),
     switchMap(() => this.account.refreshTokens({
       accessToken: localStorage.getItem(ACCESS_TOKEN_KEY),
       refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY)
     }).pipe(
-      map((authData: AuthData) => accountActions.signInSuccess(authData))
+      map((authData: AuthData) => accountActions.signInSuccess({authData: authData}))
     ))
   ))
 
@@ -81,7 +81,7 @@ export class AccountEffects{
       accessToken: action.accessToken,
       refreshToken: action.refreshToken
     }).pipe(
-      map((authData: AuthData) => accountActions.signInSuccess(authData))
+      map((authData: AuthData) => accountActions.signInSuccess({authData: authData}))
     ))
   ))
   constructor(private actions$: Actions, private account: AccountService, private router: Router) {}

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from "@ngrx/store";
 import { config, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/internal/operators';
 import { OrderComponent } from 'src/app/components/administration/order/order.component';
@@ -8,6 +9,8 @@ import { PaymentComponent } from 'src/app/components/order/payment/payment.compo
 import { OrderService } from 'src/app/services/order.service';
 
 import * as orderActions from 'src/app/store/order/order.actions';
+import { getClientOrders } from "src/app/store/order/order.actions";
+import { OrderState } from "./order.reducer";
 
 
 @Injectable()
@@ -33,6 +36,14 @@ export class OrderEffects{
       )
   )))
 
+  getClientOrders = createEffect(() => this.$actions.pipe(
+    ofType(orderActions.getClientOrders),
+    switchMap(() => this.order.getClientOrders().pipe(
+      map(clientOrders => orderActions.getClientOrdersSuccess({clientOrders: clientOrders})),
+      catchError(err => of(orderActions.getClientOrdersFailure({error: err})))
+    )
+  )))
+
   startPayOrder$ = createEffect(() => this.$actions.pipe(
     ofType(orderActions.getOrderSuccess),
     tap(() => this.dialog.open(PaymentComponent, {width: "30%"}))
@@ -47,7 +58,14 @@ export class OrderEffects{
     )
   )))
 
+  updateClientOrders$ = createEffect(() => this.$actions.pipe(
+    ofType(orderActions.payOrderSuccess),
+    tap(() => this.store.dispatch(getClientOrders())
+    )
+  ), {dispatch: false})
+
   constructor(private $actions: Actions,
               private order: OrderService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private store: Store<OrderState>) {}
 }

@@ -12,10 +12,10 @@
           Name
         </div>
         <div [hidden]="!searchStringVisible" class="card-position">
-          <mat-card>
-            <input matInput [(ngModel)]="searchString" placeholder="Input author name">
+          <mat-card class="search-card">
+            <input matInput [(ngModel)]="searchString" placeholder="Please enter author name">
             <br>
-            <button mat-raised-button color="primary" (click)="applyFilter()" class="search-btn" >Search</button>
+            <button class="search-btn" mat-raised-button color="primary" (click)="applyFilter()" class="search-btn" >Search</button>
           </mat-card>
         </div>
       </th>

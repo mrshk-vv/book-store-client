@@ -13,9 +13,9 @@
         >Title
       </div>
       <div [hidden]="!searchStringVisible" class="card-position">
-        <mat-card>
+        <mat-card class="search-card">
           <input matInput [(ngModel)]="searchString"
-                 placeholder="Input Printing edition title or description"
+                 placeholder="Please enter printing edition title or description"
           >
           <br>
           <button class="search-btn" mat-raised-button color="primary" (click)="applyFilter()" >Search</button>

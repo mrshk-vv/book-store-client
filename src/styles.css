@@ -7,8 +7,6 @@
 
 button{
   outline: 0;
-  margin-left: 5%;
-  margin-right: 5%;
 }
 
 button:focus{
@@ -64,13 +62,14 @@ button:focus{
 
 .pagination{
   position: relative;
-  margin-top: 1rem;
-  width: 30%;
-  left: 70%;
-  margin-bottom: 50px;
+  width: 50%;
+  margin: 20px 0px 50px 50%;
 }
 
 .pagination button{
+  background-color: black;
+  color:white;
+  width: 50%;
   text-align: center;
   font-size: 12px;
   height: 100%;

@@ -7,6 +7,7 @@ import * as orderActions from "src/app/store/order/order.actions";
 import * as orderSelectors from 'src/app/store/order/order.selector'
 import { OrderItem } from 'src/app/models/order/order-item';
 import { Order } from 'src/app/models/order/order';
+import { getNextPageSelector, getPreviousPageSelector } from 'src/app/store/order/order.selector';
 
 @Component({
   selector: 'app-order',
@@ -15,8 +16,11 @@ import { Order } from 'src/app/models/order/order';
 })
 export class OrderComponent implements OnInit {
 
-  pageNumber: number
   pageSize: number
+  pageNumber: number
+
+  nextPage: boolean = false
+  previousPage: boolean = true
 
   orders: Order[]
 
@@ -47,5 +51,65 @@ export class OrderComponent implements OnInit {
         this.orders = data
       }
     )
+  }
+
+  openNextPage(){
+    if(this.availabilityNextPage()){
+      this.store.dispatch(orderActions.getOrders({paginationQuery: {
+        pageNumber: this.pageNumber + 1,
+        pageSize: this.pageSize
+      }, filter: null}))
+    }
+  }
+
+  openPreviousPage(){
+    if(this.availabilityPreviousPage()){
+      this.store.dispatch(orderActions.getOrders({paginationQuery: {
+        pageNumber: this.pageNumber - 1,
+        pageSize: this.pageSize
+      }, filter: null}))
+    }
+  }
+
+  changeTableSize(){
+    this.store.dispatch(orderActions.getOrders({paginationQuery: {
+      pageNumber: this.pageNumber,
+      pageSize: this.pageSize
+    }, filter: null}))
+    this.availabilityNextPage()
+    this.availabilityPreviousPage()
+  }
+
+  availabilityNextPage(): boolean{
+    this.store.pipe(select(getNextPageSelector)).subscribe(
+      data => {
+        if(data === null){
+          this.nextPage = true
+          return true;
+        }else{
+          this.nextPage = false
+          return false
+        }
+      }
+    )
+    this.previousPage = false
+    return true
+  }
+
+  availabilityPreviousPage(): boolean{
+    this.store.pipe(select(getPreviousPageSelector)).subscribe(
+      data => {
+        if(data === null){
+          this.previousPage = true
+          return true
+        }
+        else{
+          this.nextPage = false
+          return false
+        }
+      }
+    )
+    this.nextPage = false
+    return true
   }
 }

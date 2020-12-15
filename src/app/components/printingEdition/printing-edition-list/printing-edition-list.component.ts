@@ -169,7 +169,7 @@ export class PrintingEditionListComponent implements OnInit {
 
     this.store.dispatch(getPrintingEditions({
       paginationQuery: {
-        pageNumber: this.pageNumber,
+        pageNumber: 1,
         pageSize: this.pageSize
       },
       filter: this.filter

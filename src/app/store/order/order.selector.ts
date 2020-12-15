@@ -13,6 +13,21 @@ export const getOrderSelector = createSelector(
   state => state.selectedOrder
 )
 
+export const getClientOrdersSelector = createSelector(
+  getOrderFeature,
+  state => state.clientOrders
+)
+
+export const getPreviousPageSelector = createSelector(
+  getOrderFeature,
+  state => state.previousPage
+)
+
+export const getNextPageSelector = createSelector(
+  getOrderFeature,
+  state => state.nextPage
+)
+
 export const getPageSizeSelector = createSelector(
   getOrderFeature,
   state => state.pageSize

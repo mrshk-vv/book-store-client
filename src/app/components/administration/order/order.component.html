@@ -57,3 +57,15 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<div class="pagination">
+  <mat-form-field>
+    <mat-label>Elements in table</mat-label>
+    <mat-select [(value)]="pageSize" (valueChange)="changeTableSize()">
+      <mat-option value=6>6</mat-option>
+      <mat-option value=9>9</mat-option>
+      <mat-option value=12>12</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="openPreviousPage()" [disabled]="[(previousPage)]">Previous page</button>
+  <button mat-raised-button (click)="openNextPage()" [disabled]="[(nextPage)]">Next page</button>
+</div>

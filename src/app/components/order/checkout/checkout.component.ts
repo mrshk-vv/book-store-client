@@ -12,10 +12,11 @@ import { OrderService } from 'src/app/services/order.service';
 export class CheckoutComponent implements OnInit {
 
   displayedColumns: string[] = ['product', 'unit-price', 'qty', 'order-amount','actions'];
-  cartItems: Array<OrderItem> = []
+  cartItems: OrderItem[] = null
 
   cartCheck: boolean = false
-  totalAmount: number
+
+  buyButton: boolean
 
   constructor(private cart: CartService,
               private order: OrderService,
@@ -29,6 +30,9 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartItems = this.cart.getCart
+    if(this.cartItems === null){
+      this.buyButton = true
+    }
   }
 
   changeProductQuantity(orderItem: OrderItem , $event){

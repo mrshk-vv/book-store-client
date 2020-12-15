@@ -13,6 +13,17 @@ div p .add-author{
   margin-bottom: 3rem;
 }
 
+.search-btn{
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+
+.search-card{
+  width: 250px;
+}
+
 p{
   margin-left: 3%;
 }

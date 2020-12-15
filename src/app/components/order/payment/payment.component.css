@@ -1,5 +1,15 @@
-div .pay-button{
-  justify-content: center;
-  margin-top: 10%;
+.pay-button{
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+
+label{
+  margin-bottom: 20px;
+}
+
+form{
+  padding: 10px;
 }
 

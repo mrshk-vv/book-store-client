@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Order } from 'src/app/models/order/order';
 import { OrderService } from 'src/app/services/order.service';
-import { getOrder } from 'src/app/store/order/order.actions';
+import { getClientOrders, getOrder } from 'src/app/store/order/order.actions';
 import { OrderState } from 'src/app/store/order/order.reducer';
+import { getClientOrdersSelector } from 'src/app/store/order/order.selector';
 
 @Component({
   selector: 'app-client-orders',
@@ -16,15 +17,15 @@ export class ClientOrdersComponent implements OnInit {
   displayedColumns: string[] = ['order', 'date', 'client','product','title','quantity','order-amount','status'];
 
   constructor(private order: OrderService,
-              private store: Store<OrderState>) {
-      order.getClientOrders().subscribe(
-        orders => {
-          this.orders = orders
-        }
-      )
-   }
+              private store: Store<OrderState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(getClientOrders())
+    this.store.select(getClientOrdersSelector).subscribe(
+      orders => {
+        this.orders = orders
+      }
+    )
   }
 
   payOrder(id: number){

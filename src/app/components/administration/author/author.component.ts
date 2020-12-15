@@ -169,7 +169,7 @@ export class AuthorComponent implements OnInit {
     }
     this.store.dispatch(getAuthors({
       paginationQuery: {
-        pageNumber: this.pageNumber,
+        pageNumber: 1,
         pageSize: this.pageSize
       },
       filter: this.filter

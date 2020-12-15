@@ -34,11 +34,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div style="margin: 0px auto;padding-top: 2%;">
-    <span><b>Total amount {{totalAmount}}</b></span>
-  </div>
   <div class="checkout-btn">
     <button mat-raised-button (click)="close()">Cancel</button>
-    <button mat-raised-button [disabled]="[(cartItems)] === [] || [(cartItems)] === null" (click)="buy()">Buy</button>
+    <button mat-raised-button [disabled]="buyButton || cartItems.length === 0" (click)="buy()">Buy</button>
   </div>
 

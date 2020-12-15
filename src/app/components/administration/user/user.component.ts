@@ -176,7 +176,7 @@ export class UserComponent implements OnInit {
     }
     this.store.dispatch(userActions.getUsers({
       paginationQuery: {
-        pageNumber: this.pageNumber,
+        pageNumber: 1,
         pageSize: this.pageSize
       },
       filter: this.filter

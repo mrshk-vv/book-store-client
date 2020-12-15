@@ -26,7 +26,7 @@ export enum AccountActions{
 }
 
 export const signIn = createAction(AccountActions.SIGN_IN, props<{email: string, password: string}>())
-export const signInSuccess = createAction(AccountActions.SIGN_IN_SUCCESS, props<AuthData>())
+export const signInSuccess = createAction(AccountActions.SIGN_IN_SUCCESS, props<{authData: AuthData}>())
 export const signInFailure = createAction(AccountActions.SIGN_IN_FAILURE, props<{errorMessage: string}>())
 
 export const singUp = createAction(AccountActions.SIGN_UP, props<UserSignUp>())

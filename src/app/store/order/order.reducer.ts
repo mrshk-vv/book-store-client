@@ -9,6 +9,7 @@ import { Order } from 'src/app/models/order/order';
 export const ORDER_REDUCER_NODE = 'order'
 
 export interface OrderState extends AppState,EntityState<Order>{
+  clientOrders: Order[]
   selectedOrder: Order
   error: null
 }
@@ -17,6 +18,7 @@ export const orderAdapter : EntityAdapter<Order> = createEntityAdapter<Order>()
 
 export const initinalOrderState = orderAdapter.getInitialState({
   selectedOrder: null,
+  clientOrders: null,
   pageNumber: 1,
   pageSize: 6,
   nextPage: null,
@@ -42,6 +44,19 @@ export const orderReducer = createReducer(
       previousPage: action.pagedResponce.previousPage,
     })
   ),
+  on(orderActions.getOrdersFailure, (state, action) => {
+    return{
+      ...state,
+      error: action.error
+    }
+  }),
+
+  on(orderActions.getClientOrdersSuccess, (state, action) => {
+    return{
+      ...state,
+      clientOrders: action.clientOrders
+    }
+  }),
   on(orderActions.getOrdersFailure, (state, action) => {
     return{
       ...state,

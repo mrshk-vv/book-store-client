@@ -45,7 +45,7 @@ export const accountReducer = createReducer(
   on(accountActions.signInSuccess, (state, action) =>({
     ...state,
     isLoggedIn: true,
-    authData: action
+    authData: action.authData
   })),
   on(accountActions.signInFailure, (state, action) => ({
     ...state,
